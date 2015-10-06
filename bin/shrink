@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ -n "$1" ]
+then
+	sort $1 > .$1.srt
+	uniq .$1.srt > .$1.unq
+	cp .$1.unq $1
+	rm .$1.srt .$1.unq
+	echo "Done"
+else
+	echo "Usage: shrink <file>"
+fi
+

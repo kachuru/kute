@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+init_composer
+/usr/bin/env php composer.phar require --dev behat/behat
+

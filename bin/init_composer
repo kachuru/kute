@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+if [ -f "composer.phar" ];
+then
+    php composer.phar self-update
+else
+    curl -sS https://getcomposer.org/installer | php
+fi
+
+if [ ! -f "composer.json" ];
+then
+    echo '{
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "psr-0": {
+            "": [
+                "src"
+            ]
+        }
+    }
+}
+' > composer.json
+fi
+
