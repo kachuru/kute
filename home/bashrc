@@ -11,7 +11,7 @@ export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
 # ... or force ignoredups and ignorespace
 export HISTCONTROL=ignoreboth
 
-export PATH=$PATH:$HOME/tools/bin
+export PATH=vendor/bin:bin:$PATH:$HOME/tools/bin
 
 export EDITOR=/usr/bin/vim
 
