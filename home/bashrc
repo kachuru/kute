@@ -60,6 +60,8 @@ fi
 #export GIT_PS1_SHOWDIRTYSTATE=true
 #export GIT_PS1_SHOWUNTRACKEDFILES=true
 
+source ~/tools/src/git-prompt.sh
+
 if [ "$color_prompt" = yes ]; then
 #    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]\$ '
     PS1='[\t] $(__git_ps1 "[\[\033[01;32m\]%s\[\033[00m\]] ")${debian_chroot:+($debian_chroot)}\u@\[\033[01;36m\]\h\[\033[00m\] \$ '
