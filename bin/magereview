@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+echo "Template calls Mage:: methods directly:"
+find . -name "*.phtml" -print | xargs grep --color=auto -iRnH "Mage::getModel("
+find . -name "*.phtml" -print | xargs grep --color=auto -iRnH "Mage::getResourceModel("
+find . -name "*.phtml" -print | xargs grep --color=auto -iRnH "Mage::getSingleton("
+
+echo "Template contains SQL:"
+find . -name "*.phtml" -print | xargs grep --color=auto -iRnH "SELECT.*FROM.*;[\"\']"
+
+echo "PHP file escapes HTML:"
+find ./app/code -name "*.php" -print | xargs grep --color=auto -iRnH "htmlEscape("
+
+echo "Block template contains SQL:"
+find ./app/code -name "*/Block/*.phtml" -print | xargs grep --color=auto -iRnH "SELECT.*FROM.*;[\"\']"
+
+echo "PHP file contains direct SUPERGLOBALS reference:"
+find ./app/code -name "*.php" -print | xargs grep --color=auto -iRnH "\$_\(GET\|REQUEST\|SERVER\|POST\|COOKIE\)"
+
+echo "Public _construct method:"
+find ./app/code -name "*.php" -print | xargs grep --color=auto -iRnH "public function _construct"
