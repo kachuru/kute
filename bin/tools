@@ -40,12 +40,3 @@ then
 else
     echo "vim plugin directory already exists"
 fi
-
-if [ ! -e /usr/share/pear/share.php ]
-then
-    sudo cp $HOME/tools/src/share.php /usr/share/pear/share.php
-    sudo touch /var/log/php_error.log
-    sudo chmod 666 /var/log/php_error.log
-    echo "error_log = /var/log/php_error.log" |sudo tee -a /etc/php.d/custom.ini > /dev/null
-    echo "auto_prepend_file = /usr/share/pear/share.php" |sudo tee -a /etc/php.d/custom.ini > /dev/null
-fi
