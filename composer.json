@@ -1,20 +1,20 @@
 {
     "name": "kachuru/kute",
     "description": "A package of handy scripts",
-    "type": "project",
     "license": "MIT",
+    "type": "project",
     "require": {
         "php": ">=7.3",
         "symfony/console": "^4.2",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "^4.2",
-        "symfony/lts": "^4@dev",
         "symfony/yaml": "^4.2",
         "sensio/framework-extra-bundle": "^5.2",
         "symfony/asset": "4.2.*"
     },
     "require-dev": {
         "behat/behat": "^3.4.2",
+        "mikey179/vfsstream": "^1.6",
         "phpspec/phpspec": "^4.2",
         "phpstan/phpstan": "^0.12.8",
         "squizlabs/php_codesniffer": "^3.4",
@@ -28,6 +28,9 @@
         "sort-packages": true
     },
     "autoload": {
+        "psr-0": {
+            "": "src/"
+        },
         "psr-4": {
             "App\\": "src/",
             "Kachuru\\": "src/Kachuru/"
@@ -35,16 +38,36 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "spec\\Kachuru\\": "spec/Kachuru/"
         }
     },
     "replace": {
+        "paragonie/random_compat": "2.*",
+        "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
         "symfony/polyfill-php71": "*",
         "symfony/polyfill-php70": "*",
         "symfony/polyfill-php56": "*"
     },
     "scripts": {
+        "acceptance": [
+            "bin/behat"
+        ],
+        "spec": [
+            "bin/phpspec run"
+        ],
+        "sniff": [
+            "bin/phpcs --standard=PSR2 src/"
+        ],
+        "fix": [
+            "bin/phpcbf --standard=PSR2 src/"
+        ],
+        "test": [
+            "@sniff",
+            "@acceptance",
+            "@spec"
+        ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
