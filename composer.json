@@ -5,23 +5,22 @@
     "type": "project",
     "require": {
         "php": ">=7.4",
+        "sensio/framework-extra-bundle": "^5.2",
+        "symfony/asset": "4.2.*",
         "symfony/console": "^4.2",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "^4.2",
-        "symfony/yaml": "^4.2",
-        "sensio/framework-extra-bundle": "^5.2",
-        "symfony/asset": "4.2.*"
+        "symfony/yaml": "^4.2"
     },
     "require-dev": {
         "behat/behat": "^3.4.2",
         "mikey179/vfsstream": "^1.6",
-        "phpspec/phpspec": "^6.2",
+        "phpspec/phpspec": "^7.0",
         "phpstan/phpstan": "^0.12.8",
         "squizlabs/php_codesniffer": "^3.4",
         "symfony/dotenv": "^4.0"
     },
     "config": {
-        "bin-dir": "bin",
         "preferred-install": {
             "*": "dist"
         },
@@ -52,16 +51,16 @@
     },
     "scripts": {
         "acceptance": [
-            "bin/behat"
+            "vendor/bin/behat"
         ],
         "spec": [
-            "bin/phpspec run"
+            "vendor/bin/phpspec run"
         ],
         "sniff": [
-            "bin/phpcs --standard=PSR2 src/"
+            "vendor/bin/phpcs --standard=PSR2 src/"
         ],
         "fix": [
-            "bin/phpcbf --standard=PSR2 src/"
+            "vendor/bin/phpcbf --standard=PSR2 src/"
         ],
         "test": [
             "@sniff",
