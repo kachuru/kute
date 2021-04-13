@@ -62,10 +62,13 @@
         "fix": [
             "vendor/bin/phpcbf --standard=PSR2 src/"
         ],
+        "analyse": [
+            "vendor/bin/phpstan analyse src/ --level 1"
+        ],
         "test": [
             "@sniff",
-            "@acceptance",
-            "@spec"
+            "@spec",
+            "@analyse"
         ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",

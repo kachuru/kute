@@ -16,8 +16,11 @@ class CommandPass implements CompilerPassInterface
     private $commandLoaderServiceId;
     private $commandTag;
 
-    public function __construct($applicationServiceId = 'console', $commandLoaderServiceId = 'console.command_loader', $commandTag = 'console.command')
-    {
+    public function __construct(
+        $applicationServiceId = 'console',
+        $commandLoaderServiceId = 'console.command_loader',
+        $commandTag = 'console.command'
+    ) {
         $this->applicationServiceId = $applicationServiceId;
         $this->commandLoaderServiceId = $commandLoaderServiceId;
         $this->commandTag = $commandTag;
@@ -42,10 +45,19 @@ class CommandPass implements CompilerPassInterface
                 $commandName = $tags[0]['command'];
             } else {
                 if (!$r = $container->getReflectionClass($class)) {
-                    throw new InvalidArgumentException(sprintf('Class "%s" used for service "%s" cannot be found.', $class, $id));
+                    throw new InvalidArgumentException(
+                        sprintf('Class "%s" used for service "%s" cannot be found.', $class, $id)
+                    );
                 }
                 if (!$r->isSubclassOf(Command::class)) {
-                    throw new InvalidArgumentException(sprintf('The service "%s" tagged "%s" must be a subclass of "%s".', $id, $this->commandTag, Command::class));
+                    throw new InvalidArgumentException(
+                        sprintf(
+                            'The service "%s" tagged "%s" must be a subclass of "%s".',
+                            $id,
+                            $this->commandTag,
+                            Command::class
+                        )
+                    );
                 }
                 $commandName = $class::getDefaultName();
             }

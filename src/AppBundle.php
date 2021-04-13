@@ -10,6 +10,8 @@ class AppBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {
-        $container->addCompilerPass(new CommandPass('app.console', 'app.console.command_loader', 'app.console.command'));
+        $container->addCompilerPass(
+            new CommandPass('app.console', 'app.console.command_loader', 'app.console.command')
+        );
     }
 }
