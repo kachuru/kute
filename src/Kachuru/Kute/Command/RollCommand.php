@@ -20,5 +20,7 @@ class RollCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln(sprintf('Result: %d', mt_rand(1, ($input->getArgument('sides') ?? 6))));
+
+        return 0;
     }
 }

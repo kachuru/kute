@@ -31,6 +31,8 @@ class FormatBytesCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln($this->math->getBytes($input->getArgument('bytes')));
+        $output->writeln($this->math->getBytes((int) $input->getArgument('bytes')));
+
+        return 0;
     }
 }

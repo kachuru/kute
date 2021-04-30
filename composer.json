@@ -64,7 +64,7 @@
             "vendor/bin/phpcbf --standard=PSR2 src/"
         ],
         "analyse": [
-            "vendor/bin/phpstan analyse src/ --level 1"
+            "vendor/bin/phpstan analyse src/ --level 5"
         ],
         "test": [
             "@sniff",
