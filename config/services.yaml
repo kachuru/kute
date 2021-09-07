@@ -17,13 +17,6 @@ services:
         resource: '../src/*'
         exclude: '../src/{Entity,Migrations,Tests,Kernel.php,Kachuru}'
 
-    Kachuru\:
-        resource: '../src/Kachuru/*'
-        public: true
-
-    Kachuru\Util\:
-        resource: '../vendor/kachuru/util/src/Kachuru/Util/*'
-
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
@@ -36,6 +29,13 @@ services:
         resource: '../src/Command'
         tags: ['app.console.command']
         public: true
+
+    Kachuru\:
+        resource: '../src/Kachuru/*'
+        public: true
+
+    Kachuru\Util\:
+        resource: '../vendor/kachuru/util/src/Kachuru/Util/*'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
