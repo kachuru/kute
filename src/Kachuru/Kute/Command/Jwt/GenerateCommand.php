@@ -49,15 +49,15 @@ class GenerateCommand extends Command
         $payload['iat'] = time();
         $payload['exp'] = strtotime($expiry);
 
-        echo JWT::encode($payload, $secret, $algorithm, $keyId) . PHP_EOL;
+        $output->writeln(JWT::encode($payload, $secret, $algorithm, $keyId));
     }
 
     private function payloadExtract(?array $options): array
     {
         $result = [];
+
         foreach ($options as $option) {
-            $parts = explode(':', $option);
-            $result = array_merge_recursive($result, $this->flat2associate($parts));
+            $result = array_merge_recursive($result, $this->flat2associate(explode(':', $option)));
         }
 
         return $result;
