@@ -1,6 +1,6 @@
 <?php
 
-namespace Kachuru\Kute\Command;
+namespace Kachuru\Kute\Command\File;
 
 use App\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -13,7 +13,8 @@ class WipeCommand extends Command
 {
     public function configure()
     {
-        $this->setName('wipe');
+        $this->setName('file:wipe');
+        $this->setAliases(['wipe']);
         $this->addArgument('filename', InputArgument::REQUIRED, 'File to wipe');
     }
 
