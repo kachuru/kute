@@ -1,10 +1,16 @@
-#!/usr/bin/env php
 <?php
-class CheckCfIpList
+
+namespace Kachuru\Kute\Command\Network;
+
+use App\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class CloudflareCheckIps extends Command
 {
     const CF_HOST = 'https://www.cloudflare.com/';
 
-    const LOCAL_COPY = 'cf/';
+    const LOCAL_COPY = 'var/cache/';
 
     const IPV4_LIST = 'ips-v4';
 
@@ -14,16 +20,19 @@ class CheckCfIpList
 
     const MAIL_TO = 'web@kachuru.uk';
 
+    public function configure()
+    {
+        $this->setName('network:cloudflare-check-ips');
+    }
 
-
-    public function run()
+    public function execute(InputInterface $input, OutputInterface $output)
     {
         if (!$this->checkLocalFiles()) {
             return $this->createLocalFiles();
         }
 
         if (!$this->checkRemoteList()) {
-            echo "Cloudflare IPs are out-of-date" . PHP_EOL;
+            $output->writeln("Cloudflare IPs are out-of-date");
             mail(self::MAIL_TO, 'Cloudflare IP List Out-of-Date', 'The cloudflare IP list needs updating');
         }
     }
@@ -81,6 +90,3 @@ class CheckCfIpList
         return self::LOCAL_COPY . $ipList . '.txt';
     }
 }
-
-$checkList = new CheckCfIpList();
-$checkList->run();
