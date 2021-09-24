@@ -36,6 +36,8 @@ class PharcicalCommand extends Command
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
+
+        return 0;
     }
 
     private function cleanupFiles(): void

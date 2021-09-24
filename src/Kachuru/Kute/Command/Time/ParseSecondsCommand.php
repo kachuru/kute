@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kachuru\Kute\Command\Time;
 
 use App\Command\Command;
@@ -7,7 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ParseSeconds extends Command
+class ParseSecondsCommand extends Command
 {
     private const TIME_APERTURE = [
         's' => 60,
@@ -45,6 +47,8 @@ class ParseSeconds extends Command
         }
 
         $output->writeln($ftime);
+
+        return 0;
     }
 
     private function reduce(&$time, $denom, $symbol)

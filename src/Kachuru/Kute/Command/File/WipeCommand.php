@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kachuru\Kute\Command\File;
 
 use App\Command\Command;

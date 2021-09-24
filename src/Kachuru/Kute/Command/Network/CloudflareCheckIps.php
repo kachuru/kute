@@ -35,6 +35,8 @@ class CloudflareCheckIps extends Command
             $output->writeln("Cloudflare IPs are out-of-date");
             mail(self::MAIL_TO, 'Cloudflare IP List Out-of-Date', 'The cloudflare IP list needs updating');
         }
+
+        return 0;
     }
 
     private function checkLocalFiles()
@@ -71,8 +73,6 @@ class CloudflareCheckIps extends Command
 
             return $localList == $remoteList;
         }
-
-        return true;
     }
 
     private function getLocalList($ipList)
@@ -82,7 +82,7 @@ class CloudflareCheckIps extends Command
 
     private function getRemoteList($ipList)
     {
-        return file_get_contents(self::CF_HOST . $ipList, 'r');
+        return file_get_contents(self::CF_HOST . $ipList);
     }
 
     private function getLocalFileName($ipList)

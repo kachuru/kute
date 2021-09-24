@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kachuru\Kute\Command\Time;
 
 use App\Command\Command;
@@ -7,7 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Datetime extends Command
+class DatetimeCommand extends Command
 {
     const DATETIME_FORMAT = 'Y-m-d H:i:s';
 
@@ -29,5 +31,7 @@ class Datetime extends Command
             \DateTime::createFromFormat('U', $input->getArgument('timestamp'))
                 ->format(self::DATETIME_FORMAT)
         );
+
+        return 0;
     }
 }

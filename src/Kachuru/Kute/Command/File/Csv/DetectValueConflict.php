@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kachuru\Kute\Command\File\Csv;
 
 use App\Command\Command;
@@ -47,7 +49,6 @@ class DetectValueConflict extends Command
                 $line = fgetcsv($fh);
 
                 if (false !== $line) {
-
                     $row = array_combine($headers, $line);
 
                     $value = $row[$key];
@@ -76,5 +77,7 @@ class DetectValueConflict extends Command
         }
 
         print_r($conflicts);
+
+        return 0;
     }
 }

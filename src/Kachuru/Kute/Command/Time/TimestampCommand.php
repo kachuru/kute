@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kachuru\Kute\Command\Time;
 
 use App\Command\Command;
@@ -7,7 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Timestamp extends Command
+class TimestampCommand extends Command
 {
     public function configure()
     {
@@ -24,5 +26,7 @@ class Timestamp extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln((new \DateTime($input->getArgument('datetime')))->format('U'));
+
+        return 0;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kachuru\Kute\Command\Jwt;
 
 use App\Command\Command;
@@ -50,6 +52,8 @@ class GenerateCommand extends Command
         $payload['exp'] = strtotime($expiry);
 
         $output->writeln(JWT::encode($payload, $secret, $algorithm, $keyId));
+
+        return 0;
     }
 
     private function payloadExtract(?array $options): array

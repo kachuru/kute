@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Kachuru\Kute\Command;
 
@@ -69,5 +70,7 @@ class FetchImagesCommand extends Command
                 file_put_contents($basename, $fileContent);
             }
         }
+
+        return 0;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kachuru\Kute\Command\File;
 
 use App\Command\Command;
@@ -28,7 +30,7 @@ class ConvertLineEndingsCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        ini_set('auto_detect_line_endings', true);
+        ini_set('auto_detect_line_endings', "1");
 
         $filename = $input->getArgument('filename');
 
@@ -66,5 +68,7 @@ class ConvertLineEndingsCommand extends Command
         }
 
         fclose($fh);
+
+        return 0;
     }
 }

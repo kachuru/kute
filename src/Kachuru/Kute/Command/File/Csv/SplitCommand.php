@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kachuru\Kute\Command\File\Csv;
 
 use App\Command\Command;
@@ -55,6 +57,8 @@ class SplitCommand extends Command
         }
 
         fclose($fhr);
+
+        return 0;
     }
 
     private function generateOutputFilenames(string $filename, int $numFiles): iterable
