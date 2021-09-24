@@ -1,3 +1,0 @@
-#!/usr/bin/env php
-<?php
-echo sha1(microtime(true)) . PHP_EOL;
