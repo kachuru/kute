@@ -30,13 +30,3 @@ then
 fi
 ln -s $HOME/tools/home/gitconfig $HOME/.gitconfig
 
-if [ ! -e $HOME/.vim/ ]
-then
-    mkdir $HOME/.vim/
-fi
-if [ ! -e $HOME/.vim/plugin ]
-then
-    ln -s $HOME/tools/lib/vimplugin $HOME/.vim/plugin
-else
-    echo "vim plugin directory already exists"
-fi
