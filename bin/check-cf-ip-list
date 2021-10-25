@@ -1,0 +1,86 @@
+#!/usr/bin/env php
+<?php
+class CheckCfIpList
+{
+    const CF_HOST = 'https://www.cloudflare.com/';
+
+    const LOCAL_COPY = 'cf/';
+
+    const IPV4_LIST = 'ips-v4';
+
+    const IPV6_LIST = 'ips-v6';
+
+    const IP_LISTS = [self::IPV4_LIST, self::IPV6_LIST];
+
+    const MAIL_TO = 'web@kachuru.uk';
+
+
+
+    public function run()
+    {
+        if (!$this->checkLocalFiles()) {
+            return $this->createLocalFiles();
+        }
+
+        if (!$this->checkRemoteList()) {
+            echo "Cloudflare IPs are out-of-date" . PHP_EOL;
+            mail(self::MAIL_TO, 'Cloudflare IP List Out-of-Date', 'The cloudflare IP list needs updating');
+        }
+    }
+
+    private function checkLocalFiles()
+    {
+        return array_reduce(self::IP_LISTS, function ($exists, $ipList) {
+            $exists |= file_exists($this->getLocalFileName($ipList));
+            return $exists;
+        });
+    }
+
+    private function createLocalFiles()
+    {
+        return array_reduce(self::IP_LISTS, function ($success, $ipList) {
+            printf('Creating %s list file... ' . PHP_EOL, $ipList);
+
+            $localFile = $this->getLocalFileName($ipList);
+
+            touch($localFile);
+
+            if (!file_exists($localFile)) {
+                throw new \RuntimeException('Could not create local file');
+            }
+
+            $success |= file_put_contents($localFile, $this->getRemoteList($ipList));
+            return $success;
+        });
+    }
+
+    private function checkRemoteList()
+    {
+        foreach (self::IP_LISTS as $ipList) {
+            $localList = $this->getLocalList($ipList);
+            $remoteList = $this->getRemoteList($ipList);
+
+            return $localList == $remoteList;
+        }
+
+        return true;
+    }
+
+    private function getLocalList($ipList)
+    {
+        return file_get_contents($this->getLocalFileName($ipList));
+    }
+
+    private function getRemoteList($ipList)
+    {
+        return file_get_contents(self::CF_HOST . $ipList, 'r');
+    }
+
+    private function getLocalFileName($ipList)
+    {
+        return self::LOCAL_COPY . $ipList . '.txt';
+    }
+}
+
+$checkList = new CheckCfIpList();
+$checkList->run();
