@@ -1,0 +1,2 @@
+hardstatus alwayslastline "%{=b gY } %-Lw%{=b gW}%51>%n%f* %t%{-}%+Lw%<"
+defscrollback 10000

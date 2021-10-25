@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ -n "$1" ]
+then
+	cat /dev/null > $1
+else
+	echo "Usage: wipe <filename>"
+fi
+

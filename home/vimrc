@@ -1,0 +1,58 @@
+syntax on
+set tabstop=4
+set shiftwidth=4
+set nocompatible
+set backspace=2
+set expandtab
+set scrolloff=10
+
+"set t_Co=256
+"hi CursorLine   cterm=NONE ctermbg=black
+"hi CursorColumn cterm=NONE ctermbg=darkred
+"nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+
+"set cursorline
+"autocmd WinEnter * setlocal cursorline
+"autocmd WinLeave * setlocal nocursorline
+
+"set list
+"set lcs=tab:»·   "show tabs
+"set lcs+=trail:· "show trailing spaces
+
+set tags=tags;/
+
+nmap <silent> <C-h> :silent call ToggleHLSearch()<CR>
+nmap <silent> <C-l> :silent call ToggleLineNumber()<CR>
+nmap <silent> <C-b> :silent call ToggleBreakpoint()<CR>
+"nmap <silent> <C-P> :silent call TogglePaste()<CR>
+
+function ToggleHLSearch()
+	if &hls
+		set nohlsearch
+	else
+		set hlsearch
+	endif
+endfunction
+
+function ToggleLineNumber()
+	if &number
+		set number!
+		:set mouse-=a
+	else
+		set number
+		set mouse=a
+	endif
+endfunction
+
+function TogglePaste()
+	if &paste
+		set nopaste
+	else
+		set paste
+	endif
+endfunction
+
+function ToggleBreakpoint()
+    :Bp
+endfunction
+

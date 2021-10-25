@@ -1,0 +1,7 @@
+#!/bin/bash
+if [ ! -n "$1" ]
+then
+    echo "Usage ./jump <remote_host>"
+else
+    ssh -A $1 "curl --silent --show-error --header 'x-connect-key: 82ceba42db3e5e6d02f85fa055ef307feda50e5f' https://kickstart.jumpcloud.com/Kickstart | bash"
+fi
