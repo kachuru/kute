@@ -1,5 +1,7 @@
-#!/usr/bin/php -q
+#!/usr/bin/env php
 <?php
+ini_set('auto_detect_line_endings', true);
+
 if (! isset($argv[1]))
 {
     echo "Usage: fix_le <file>\n";

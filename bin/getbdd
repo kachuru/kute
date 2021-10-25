@@ -2,9 +2,9 @@
 
 if [ -f "composer.phar" ];
 then
-    php composer.phar self-update
+    /usr/bin/env php composer.phar self-update
 else
-    curl -sS https://getcomposer.org/installer | php
+    /usr/bin/env curl -sS https://getcomposer.org/installer | php
 fi
 
 if [ ! -f "composer.json" ];
@@ -24,3 +24,6 @@ then
 ' > composer.json
 fi
 
+/usr/bin/env php composer.phar require --dev behat/behat
+
+/usr/bin/env php composer.phar require --dev phpspec/phpspec

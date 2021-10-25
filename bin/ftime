@@ -1,4 +1,4 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 <?php
 function reduce(&$time, $denom, $symbol)
 {
@@ -29,9 +29,9 @@ if (strpos($secs, '.')) {
     $ftime = $ms . 'ms';
 }
 
-$times = array(
-    array(60, 's'), array(60, 'm'), array(24, 'h'), array(null, 'd')
-);
+$times = [
+    [60, 's'], [60, 'm'], [24, 'h'], [null, 'd']
+];
 
 $remain = $secs;
 while ($remain > 0) {
