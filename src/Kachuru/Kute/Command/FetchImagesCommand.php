@@ -63,11 +63,17 @@ class FetchImagesCommand extends Command
                     $output->writeln(sprintf('File %s failed: %s', $url, $exception->getMessage()));
                 }
             } else {
-                $output->write(sprintf('Downloading %s...', $url));
-                $basename = $downloadDir . DIRECTORY_SEPARATOR . basename($url);
-                $fileContent = file_get_contents(trim($url));
-                $output->write(sprintf(' Writing to %s', $basename));
-                file_put_contents($basename, $fileContent);
+                try {
+                    $output->write(sprintf('Downloading %s...', $url));
+                    $basename = $downloadDir . DIRECTORY_SEPARATOR . basename($url);
+                    $fileContent = file_get_contents(trim($url));
+                    $output->write(sprintf(' Writing to %s', $basename));
+                    file_put_contents($basename, $fileContent);
+                    $output->writeln(' Done');
+                } catch (\Exception $e) {
+                    $output->write(' FAILED: ');
+                    $output->writeln($e->getMessage());
+                }
             }
         }
 
