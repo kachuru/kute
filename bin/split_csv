@@ -1,7 +1,6 @@
 #!/usr/bin/env php
 <?php
-$opts = getopt('hf:n::s::');
-
+$opts = getopt('hf:n::s::', [], $i);
 // Strip out args from argv
 foreach ($argv as $i => $arg) {
     if ($i != 0) {
@@ -50,6 +49,7 @@ for ($i = 0; $i < $num; $i++) {
 $fp = fopen($file, 'r');
 
 $pos = 0;
+$headers = null;
 if ($preserveHeaders) {
     $headers = fgetcsv($fp, 0, $sep);
     $pos = ftell($fp);
