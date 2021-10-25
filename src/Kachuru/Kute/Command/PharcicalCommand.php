@@ -32,7 +32,7 @@ class PharcicalCommand extends Command
             $phar->compressFiles(\Phar::GZ);
             chmod(self::PHAR_FILENAME, 0770);
 
-            $output->writeln(sprintf('%s succssfully created', self::PHAR_FILENAME));
+            $output->writeln(sprintf('%s successfully created', self::PHAR_FILENAME));
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
