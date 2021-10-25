@@ -9,6 +9,7 @@
 [alias]
     lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
     ql = "log --oneline --no-merges"
+	quick-stats = ! /usr/local/bin/git-quick-stats
 [push]
 	default = current
 [rerere]
