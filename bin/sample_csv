@@ -1,0 +1,48 @@
+#!/usr/bin/env php
+<?php
+
+if (!array_key_exists(1, $argv) || !file_exists($argv[1])) {
+    die('You must supply a CSV file to sample' . PHP_EOL);
+}
+
+$csvFile = $argv[1];
+
+$sampleSize = "100";
+if (array_key_exists(2, $argv)) {
+    $sampleSize = $argv[2];
+}
+
+if (!is_numeric($sampleSize)) {
+    die('Sample size must be a numeric value' . PHP_EOL);
+}
+
+$fh = fopen($csvFile, 'r');
+
+// Chop off header row
+fgets($fh);
+
+$lineCount = -1;
+while (!feof($fh)) {
+    fgets($fh);
+    $lineCount++;
+}
+$indices = [];
+for ($i = 0; $i < $sampleSize; $i++) {
+    $val = mt_rand(0, $lineCount);
+    while (in_array($val, $indices)) {
+        $val = mt_rand(0, $lineCount);
+    }
+    $indices[] = $val;
+}
+
+rewind($fh);
+
+echo fgets($fh);
+$lineCount = -1;
+while (!feof($fh)) {
+    $line = fgets($fh);
+    $lineCount++;
+    if (in_array($lineCount, $indices)) {
+        echo $line;
+    }
+}

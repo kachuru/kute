@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+$snips = [];
+$preg = "/^[a-f0-9]+ (\[)?(?P<ticknum>[A-Z0-9]+\-[0-9]+)(\])?[\:\- ].*$/";
+while (false !== ($line = fgets(STDIN))) {
+    if (preg_match($preg, $line, $match)) {
+        $snips[] = trim($match['ticknum']);
+    }
+}
+
+natsort($snips);
+$snips = array_unique($snips);
+
+foreach ($snips as $snip) {
+    echo $snip . PHP_EOL;
+}

@@ -10,9 +10,6 @@ fi
 if [ ! -f "composer.json" ];
 then
     echo '{
-    "config": {
-        "bin-dir": "bin"
-    },
     "autoload": {
         "psr-0": {
             "": [
