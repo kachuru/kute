@@ -1,0 +1,7 @@
+#!/usr/bin/env php
+<?php
+if (!isset($argv[1]) || !file_exists($argv[1])) {
+    die("Requires json file to decode\n");
+}
+
+print_r(json_decode(file_get_contents($argv[1])));
