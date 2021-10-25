@@ -6,6 +6,6 @@ else
     ssh-copy-id $1
     ssh -A $1 "if [ -e /etc/redhat-release ]; then sudo yum install -y bash-completion xmlstarlet; fi"
     ssh -A $1 "ssh -q -o StrictHostKeyChecking=no git@github.com"
-    ssh -A $1 "git clone git@github.com:rgpjones/ps-tools.git ~/tools"
+    ssh -A $1 "git clone git@github.com:kachuru/ku-tools.git ~/tools"
     ssh $1 "~/tools/bin/tools"
 fi
