@@ -38,7 +38,7 @@ class SplitCommand extends Command
             ? fgetcsv($fhr)
             : [];
 
-        $filenames = $this->generateOutputFilenames($filename, $input->getOption('files'));
+        $filenames = $this->generateOutputFilenames($filename, (int) $input->getOption('files'));
 
         foreach ($filenames as $filename) {
             $fhw = fopen($filename, 'w+');
