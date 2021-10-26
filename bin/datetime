@@ -1,0 +1,15 @@
+#!/usr/bin/php 
+<?php
+echo date_default_timezone_get();
+if (!isset($argv[1]))
+{
+	echo "Usage: datetime.php unix_timestamp\n";
+	exit;
+}
+
+$time = $argv[1];
+
+echo "\n\tLocale Time: " . date('Y-m-d H:i:s', $time) . "\n";
+echo "\t   GMT Time: " . gmdate('Y-m-d H:i:s', $time) . "\n\n";
+
+?>

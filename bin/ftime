@@ -1,0 +1,43 @@
+#!/usr/bin/php
+<?php
+function reduce(&$time, $denom, $symbol)
+{
+    if (is_null($denom)) {
+        $reduce = 0;
+        $remain = $time;
+    } else {
+        $reduce = floor($time / $denom);
+        $remain = $time % $denom;
+    }
+
+    $time = $reduce;
+    return $remain . $symbol;
+}
+
+
+
+if (!isset($argv[1]) || !is_numeric($argv[1])) {
+    die('Usage: time <seconds>' . "\n");
+}
+$secs = $argv[1];
+
+$mins  = $hours = $days = 0;
+$ftime = '';
+
+if (strpos($secs, '.')) {
+    list($secs, $ms) = explode('.', $secs);
+    $ftime = $ms . 'ms';
+}
+
+$times = array(
+    array(60, 's'), array(60, 'm'), array(24, 'h'), array(null, 'd')
+);
+
+$remain = $secs;
+while ($remain > 0) {
+    $time = array_shift($times);
+    $ftime = reduce($remain, $time[0], $time[1]) . ' ' . $ftime;
+}
+
+
+echo $ftime . "\n";

@@ -1,0 +1,10 @@
+if [ ! -n "$1" ]
+then
+	echo "Usage: ./ssl_gen_cert <cert_name>"
+else
+	export CERT=$1
+	openssl genrsa -des3 -out $CERT.key.src 2048
+    openssl rsa -in $CERT.key.src -out $CERT.key
+	openssl req -new -key $CERT.key -out $CERT.csr
+	openssl x509 -req -days 365 -in $CERT.csr -signkey $CERT.key -outform PEM -out $CERT.pem
+fi

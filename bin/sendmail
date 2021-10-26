@@ -1,0 +1,38 @@
+#!/usr/bin/perl -w
+
+# Mock sendmail implementation
+
+use strict;
+use Fcntl ':flock';
+
+my $mailCacheDir = "/tmp/mail_cache/";
+
+unless (-e $mailCacheDir) {
+    mkdir $mailCacheDir, 0777;
+}
+
+my $index = 1;
+my $mailfile = sprintf($mailCacheDir . "mail_%d_%04d.eml", time(), $index);
+
+while (-e $mailfile) {
+    $index++;
+    $mailfile = sprintf($mailCacheDir . "mail_%d_%04d.eml", time(), $index);
+}
+
+my $message = "";
+
+while (<STDIN>) {
+    last if /^\.$/;
+    $message .= $_;
+}
+
+open MAILFILE, ">>$mailfile" or die $!;
+
+flock(MAILFILE, LOCK_EX);
+seek(MAILFILE, 0, 2);
+
+print MAILFILE gmtime() . "\n$message\n";
+
+flock(MAILFILE, LOCK_UN);
+close MAILFILE;
+

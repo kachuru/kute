@@ -1,0 +1,61 @@
+#!/usr/bin/php -q
+<?php
+if (! isset($argv[1]))
+{
+    echo "Usage: fix_le <file>\n";
+    exit;
+}
+
+if (isset($argv[2]))
+{
+    switch ($argv[2])
+    {
+        case 'win':
+            fwrite(STDERR, "Converting to Windows line endings...\n");
+            $le = "\r\n";
+            break;
+
+        case 'mac':
+            fwrite(STDERR, "Converting to Macintosh line endings...\n");
+            $le = "\r";
+            break;
+
+        default:
+            fwrite(STDERR, "Converting to UNIX line endings...\n");
+            $le = "\n";
+            break;
+    }
+}
+else
+{
+    fwrite(STDERR, "Converting to UNIX line endings...\n");
+    $le = "\n";
+}
+
+$file = $argv[1];
+
+if (! file_exists($file))
+{
+    fwrite(STDERR, "File does not exist: {$file}\n");
+    exit;
+}
+
+$srcFile = realpath($file);
+$dir     = dirname($srcFile);
+$swpFile = "{$dir}/." . basename($srcFile) . '.swp';
+
+$srcFh   = fopen($srcFile, 'r');
+$swpFh   = fopen($swpFile, 'w+');
+
+while (TRUE !== feof($srcFh))
+{
+    $line = rtrim(fgets($srcFh));
+    fwrite($swpFh, $line . $le);
+}
+
+fclose($swpFh);
+fclose($srcFh);
+fwrite(STDERR, "Done\n");
+
+rename($swpFile, $srcFile);
+

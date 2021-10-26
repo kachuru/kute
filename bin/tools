@@ -1,0 +1,51 @@
+#!/bin/bash
+
+if [ ! -e $HOME/.bashalias ]
+then
+    touch $HOME/.bashalias
+fi
+
+if [ -e $HOME/.bashrc ]
+then
+    rm $HOME/.bashrc
+fi
+ln -s $HOME/tools/home/bashrc $HOME/.bashrc
+
+if [ -e $HOME/.vimrc ]
+then
+    rm $HOME/.vimrc
+fi
+ln -s $HOME/tools/home/vimrc $HOME/.vimrc
+
+
+if [ -e $HOME/.screenrc ]
+then
+    rm $HOME/.screenrc
+fi
+ln -s $HOME/tools/home/screenrc $HOME/.screenrc
+
+if [ -e $HOME/.gitconfig ]
+then
+    rm $HOME/.gitconfig
+fi
+ln -s $HOME/tools/home/gitconfig $HOME/.gitconfig
+
+if [ ! -e $HOME/.vim/ ]
+then
+    mkdir $HOME/.vim/
+fi
+if [ ! -e $HOME/.vim/plugin ]
+then
+    ln -s $HOME/tools/lib/vimplugin $HOME/.vim/plugin
+else
+    echo "vim plugin directory already exists"
+fi
+
+if [ ! -e /usr/share/pear/share.php ]
+then
+    sudo cp $HOME/tools/src/share.php /usr/share/pear/share.php
+    sudo touch /var/log/php_error.log
+    sudo chmod 666 /var/log/php_error.log
+    echo "error_log = /var/log/php_error.log" |sudo tee -a /etc/php.d/custom.ini > /dev/null
+    echo "auto_prepend_file = /usr/share/pear/share.php" |sudo tee -a /etc/php.d/custom.ini > /dev/null
+fi
