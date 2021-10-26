@@ -22,6 +22,16 @@ class PharcicalCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
         try {
+            if (ini_get('phar.readonly')) {
+                throw new \RuntimeException(
+                    sprintf(
+                        'Cannot create phar file with phar.readonly set to true' . PHP_EOL
+                        . 'To run this command please use:' . PHP_EOL . PHP_EOL
+                        . '    php -d phar.readonly=false bin/kute pharcical' . PHP_EOL . PHP_EOL
+                    )
+                );
+            }
+
             $this->cleanupFiles();
 
             $phar = new \Phar(self::PHAR_FILENAME);
