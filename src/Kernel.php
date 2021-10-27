@@ -35,6 +35,11 @@ class Kernel extends BaseKernel
         return \sys_get_temp_dir().'/kute/var/'.$this->environment.'/cache/';
     }
 
+    public function getLogDir(): string
+    {
+        return \sys_get_temp_dir().'/kute/var/'.$this->environment.'/log/';
+    }
+
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
         $container->addResource(new FileResource($this->getProjectDir().'/config/bundles.php'));
