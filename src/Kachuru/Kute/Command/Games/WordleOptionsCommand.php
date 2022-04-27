@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Kachuru\Kute\Command\Games;
 
 use App\Command\Command;
+use Kachuru\Util\Combinations;
+use Kachuru\Util\Math;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,9 +16,17 @@ class WordleOptionsCommand extends Command
 {
     private const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
+    private Combinations $combinations;
+
     private array $availableLetters = [];
 
     private array $words = [];
+
+    public function __construct(Combinations $combinations)
+    {
+        $this->combinations = $combinations;
+        parent::__construct();
+    }
 
     public function configure()
     {
@@ -26,6 +36,13 @@ class WordleOptionsCommand extends Command
             'pattern',
             InputArgument::REQUIRED,
             'Pattern based on known letters (e.g. P_A__,_PA__,__A_P)'
+        );
+
+        $this->addOption(
+            'known-letters',
+            'k',
+            InputOption::VALUE_OPTIONAL,
+            'Letters that are known, but not the position'
         );
 
         $this->addOption(
@@ -41,6 +58,22 @@ class WordleOptionsCommand extends Command
         $this->words = $this->getWords();
 
         $patterns = explode(',', $input->getArgument('pattern'));
+
+        $knownLetters = $input->getOption('known-letters');
+        $knownLetters = !empty($knownLetters)
+            ? str_split(strtoupper($knownLetters))
+            : [];
+
+        if (count($knownLetters) > 0) {
+            $patterns = [];
+            $knownLetters = array_pad($knownLetters, 5, '_');
+
+            for ($i = 0; $i < Math::factorial(5); $i++) {
+                $patterns[] = implode('', $this->combinations->calculate($knownLetters, $i));
+            }
+        }
+
+        $patterns = array_unique($patterns);
 
         $usedLetters = $input->getOption('used-letters');
         $usedLetters = !empty($usedLetters)
