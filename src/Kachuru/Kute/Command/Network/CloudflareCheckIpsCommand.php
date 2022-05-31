@@ -6,7 +6,7 @@ use App\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CloudflareCheckIps extends Command
+class CloudflareCheckIpsCommand extends Command
 {
     const CF_HOST = 'https://www.cloudflare.com/';
 
