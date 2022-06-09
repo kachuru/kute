@@ -26,7 +26,7 @@ class TunnelNannyCommand extends Command
 
             $inUse = array_filter(
                 $result,
-                function ($entry) use ($output) {
+                function ($entry) {
                     return strstr($entry, self::SSH_COMMAND);
                 }
             );
@@ -46,8 +46,6 @@ class TunnelNannyCommand extends Command
 
             sleep(300);
         }
-
-        return 0;
     }
 
     private function output(OutputInterface $output, $message)

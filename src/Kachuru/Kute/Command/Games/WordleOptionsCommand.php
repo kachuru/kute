@@ -18,13 +18,16 @@ class WordleOptionsCommand extends Command
 
     private Combinations $combinations;
 
+    private Math $math;
+
     private array $availableLetters = [];
 
     private array $words = [];
 
-    public function __construct(Combinations $combinations)
+    public function __construct(Combinations $combinations, Math $math)
     {
         $this->combinations = $combinations;
+        $this->math = $math;
         parent::__construct();
     }
 
@@ -68,7 +71,7 @@ class WordleOptionsCommand extends Command
             $patterns = [];
             $knownLetters = array_pad($knownLetters, 5, '_');
 
-            for ($i = 0; $i < Math::factorial(5); $i++) {
+            for ($i = 0; $i < $this->math->getFactorial(5); $i++) {
                 $patterns[] = implode('', $this->combinations->calculate($knownLetters, $i));
             }
         }

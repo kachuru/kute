@@ -15,7 +15,7 @@ class ParseSecondsCommand extends Command
         's' => 60,
         'm' => 60,
         'h' => 25,
-        'd' => -1
+        'd' => null
     ];
 
     public function configure()
@@ -36,9 +36,10 @@ class ParseSecondsCommand extends Command
             $ftime = $ms . 'ms';
         }
 
-        $times = [
-            [60, 's'], [60, 'm'], [24, 'h'], [null, 'd']
-        ];
+        $times = [];
+        foreach (self::TIME_APERTURE as $key => $division) {
+            $times[] = [$division, $key];
+        }
 
         $remain = $secs;
         while ($remain > 0) {
