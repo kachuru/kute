@@ -43,3 +43,7 @@ services:
         resource: '../src/Kachuru/Kute/Command'
         tags: ['app.console.command']
         public: true
+
+    Kachuru\Kute\Command\Network\CloudflareCheckIpsCommand:
+        arguments: ["%kernel.cache_dir%"]
+        tags: ['app.console.command']

@@ -10,8 +10,6 @@ class CloudflareCheckIpsCommand extends Command
 {
     const CF_HOST = 'https://www.cloudflare.com/';
 
-    const LOCAL_COPY = 'var/cache/';
-
     const IPV4_LIST = 'ips-v4';
 
     const IPV6_LIST = 'ips-v6';
@@ -19,6 +17,17 @@ class CloudflareCheckIpsCommand extends Command
     const IP_LISTS = [self::IPV4_LIST, self::IPV6_LIST];
 
     const MAIL_TO = 'web@kachuru.uk';
+
+    const MAIL_FROM = 'server@kachuru.uk';
+
+    private string $cacheDir;
+
+    public function __construct(string $cacheDir)
+    {
+        $this->cacheDir = $cacheDir;
+
+        parent::__construct();
+    }
 
     public function configure()
     {
@@ -33,7 +42,13 @@ class CloudflareCheckIpsCommand extends Command
 
         if (!$this->checkRemoteList()) {
             $output->writeln("Cloudflare IPs are out-of-date");
-            mail(self::MAIL_TO, 'Cloudflare IP List Out-of-Date', 'The cloudflare IP list needs updating');
+
+            mail(
+                self::MAIL_TO,
+                'Cloudflare IP List Out-of-Date',
+                'The cloudflare IP list needs updating',
+                ['From' => self::MAIL_FROM]
+            );
         }
 
         return 0;
@@ -87,6 +102,6 @@ class CloudflareCheckIpsCommand extends Command
 
     private function getLocalFileName($ipList)
     {
-        return self::LOCAL_COPY . $ipList . '.txt';
+        return sprintf('%s/%s.txt', $this->cacheDir, $ipList);
     }
 }
