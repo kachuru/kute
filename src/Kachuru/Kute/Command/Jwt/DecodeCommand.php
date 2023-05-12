@@ -36,5 +36,7 @@ class DecodeCommand extends Command
                 true
             )
         );
+
+        return 0;
     }
 }

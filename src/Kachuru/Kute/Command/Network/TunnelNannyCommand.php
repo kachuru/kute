@@ -25,6 +25,7 @@ class TunnelNannyCommand extends Command
     {
         $sshCommand = $this->getSshCommand($input);
 
+        // @phpstan-ignore-next-line
         while (true) {
             $result = [];
             exec(sprintf('ps aux|grep "%s"|grep -v "grep"', $sshCommand), $result);
