@@ -18,7 +18,7 @@ class ConvertLineEndingsCommand extends Command
         'mac' => "\r"
     ];
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('file:convert-line-endings');
         $this->setAliases(['fixle', 'file:fixle']);
@@ -28,7 +28,7 @@ class ConvertLineEndingsCommand extends Command
         $this->addOption('mac', 'm', InputOption::VALUE_NONE, 'Convert to Mac line-endings');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         ini_set('auto_detect_line_endings', "1");
 
@@ -60,7 +60,7 @@ class ConvertLineEndingsCommand extends Command
             $le = self::LINE_ENDINGS['mac'];
         }
 
-        $fh   = fopen($filename, 'r');
+        $fh = fopen($filename, 'r');
 
         while (true !== feof($fh)) {
             $line = rtrim(fgets($fh));
@@ -69,6 +69,6 @@ class ConvertLineEndingsCommand extends Command
 
         fclose($fh);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

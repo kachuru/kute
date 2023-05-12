@@ -10,9 +10,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DetectValueConflict extends Command
+class DetectValueConflictCommand extends Command
 {
-    public function configure()
+    public function configure(): void
     {
         $this->setName('file:csv:detect-value-conflict');
 
@@ -25,7 +25,7 @@ class DetectValueConflict extends Command
         $this->addOption('key', 'k', InputOption::VALUE_REQUIRED, 'Key to check for duplicate values');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $files = $input->getArgument('filenames');
 
@@ -78,6 +78,6 @@ class DetectValueConflict extends Command
 
         print_r($conflicts);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

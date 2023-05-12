@@ -29,12 +29,12 @@ class CloudflareCheckIpsCommand extends Command
         parent::__construct();
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('network:cloudflare-check-ips');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$this->checkLocalFiles()) {
             return $this->createLocalFiles();
@@ -51,7 +51,7 @@ class CloudflareCheckIpsCommand extends Command
             );
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function checkLocalFiles()

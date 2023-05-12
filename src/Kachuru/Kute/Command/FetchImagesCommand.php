@@ -23,7 +23,7 @@ class FetchImagesCommand extends Command
         $this->httpClient = new Client();
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('fetch-images');
         $this->addArgument('filename', InputArgument::REQUIRED, 'List of images to fetch');
@@ -36,7 +36,7 @@ class FetchImagesCommand extends Command
         );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $filename = $input->getArgument('filename');
         $downloadDir = $input->getArgument('download-dir');
@@ -77,6 +77,6 @@ class FetchImagesCommand extends Command
             }
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 }

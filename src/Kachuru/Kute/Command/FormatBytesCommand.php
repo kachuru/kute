@@ -23,7 +23,7 @@ class FormatBytesCommand extends Command
         $this->math = $math;
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('format-bytes');
         $this->setAliases(['fbytes']);
@@ -31,10 +31,10 @@ class FormatBytesCommand extends Command
         $this->addArgument('bytes', InputArgument::REQUIRED, 'Number of bytes to format');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln($this->math->getBytes((int) $input->getArgument('bytes')));
 
-        return 0;
+        return self::SUCCESS;
     }
 }

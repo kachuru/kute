@@ -13,7 +13,7 @@ use Firebase\JWT\JWT;
 
 class GenerateCommand extends Command
 {
-    public function configure()
+    public function configure(): void
     {
         $this->setName('jwt:generate');
         $this->setDescription('Generate a JWT token');
@@ -36,7 +36,7 @@ class GenerateCommand extends Command
         $this->addOption('encode-secret', 'x', InputOption::VALUE_OPTIONAL, 'Base64 encode the secret', false);
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $algorithm = $input->getOption('algorithm');
         $secret = $input->getOption('secret');
@@ -53,7 +53,7 @@ class GenerateCommand extends Command
 
         $output->writeln(JWT::encode($payload, $secret, $algorithm, $keyId));
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function payloadExtract(?array $options): array

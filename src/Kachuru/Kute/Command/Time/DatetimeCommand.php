@@ -11,9 +11,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DatetimeCommand extends Command
 {
-    const DATETIME_FORMAT = 'Y-m-d H:i:s';
+    private const DATETIME_FORMAT = 'Y-m-d H:i:s';
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('time:ts2dt');
         $this->setAliases(['ts2dt', 'datetime']);
@@ -25,13 +25,13 @@ class DatetimeCommand extends Command
         );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln(
             \DateTime::createFromFormat('U', $input->getArgument('timestamp'))
                 ->format(self::DATETIME_FORMAT)
         );
 
-        return 0;
+        return self::SUCCESS;
     }
 }

@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class TimestampCommand extends Command
 {
-    public function configure()
+    public function configure(): void
     {
         $this->setName('time:dt2ts');
         $this->setAliases(['dt2ts', 'timestamp']);
@@ -23,10 +23,10 @@ class TimestampCommand extends Command
         );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln((new \DateTime($input->getArgument('datetime')))->format('U'));
 
-        return 0;
+        return self::SUCCESS;
     }
 }

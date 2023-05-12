@@ -13,13 +13,13 @@ class PharcicalCommand extends Command
     private const PHAR_FILENAME = 'kute.phar';
     private const KUTE_ENTRYPOINT = 'bin/kute';
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('pharcical');
         $this->setDescription('Create a phar file based on this project');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
             if (ini_get('phar.readonly')) {
@@ -47,7 +47,7 @@ class PharcicalCommand extends Command
             echo $e->getMessage();
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function cleanupFiles(): void

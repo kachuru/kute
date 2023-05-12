@@ -2,7 +2,7 @@
 <?php
 
 use App\Kernel;
-use Symfony\Component\Debug\Debug;
+use Symfony\Component\ErrorHandler\Debug;
 
 require __DIR__.'/../vendor/autoload.php';
 
