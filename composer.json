@@ -33,9 +33,6 @@
         }
     },
     "autoload": {
-        "psr-0": {
-            "": "src/"
-        },
         "psr-4": {
             "Kachuru\\Kute\\": "src/Kachuru/Kute/",
             "App\\": "src/"
