@@ -31,7 +31,7 @@ class WordleOptionsCommand extends Command
         parent::__construct();
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('games:wordle:options');
 
@@ -56,7 +56,7 @@ class WordleOptionsCommand extends Command
         );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->words = $this->getWords();
 
@@ -89,7 +89,7 @@ class WordleOptionsCommand extends Command
             $this->selectLettersToTry(str_replace('_', '%s', $pattern, $num), [], $num - 1);
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getWords(): array

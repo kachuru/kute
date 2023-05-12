@@ -21,14 +21,14 @@ class RollCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('roll');
         $this->setDescription('Roll a dice.');
         $this->addArgument('format', InputArgument::OPTIONAL, 'The format of the dice to roll, e.g.: d6, 2d4, 3d5+3');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln(
             sprintf(
@@ -38,6 +38,6 @@ class RollCommand extends Command
             )
         );
 
-        return 0;
+        return self::SUCCESS;
     }
 }

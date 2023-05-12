@@ -14,14 +14,14 @@ class TunnelNannyCommand extends Command
 {
     private const SSH_COMMAND = 'ssh -fND %d %s';
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('network:tunnel:nanny');
         $this->addArgument('host', InputArgument::REQUIRED, 'The host to establish connection to');
         $this->addArgument('port', InputArgument::REQUIRED, 'The port to connect to');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $sshCommand = $this->getSshCommand($input);
 
@@ -60,9 +60,9 @@ class TunnelNannyCommand extends Command
 
     /**
      * @param string $sshCommand
-     * @return array|void
+     * @return array
      */
-    private function connect(string $sshCommand)
+    private function connect(string $sshCommand): array
     {
         $result = [];
         exec($sshCommand, $result);

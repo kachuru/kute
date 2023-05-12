@@ -18,7 +18,7 @@ class ParseSecondsCommand extends Command
         'd' => null
     ];
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('time:parse-seconds');
         $this->setAliases(['ftime']);
@@ -26,7 +26,7 @@ class ParseSecondsCommand extends Command
         $this->addArgument('seconds', InputArgument::REQUIRED, 'Seconds to parse');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $secs = $input->getArgument('seconds');
 
@@ -49,7 +49,7 @@ class ParseSecondsCommand extends Command
 
         $output->writeln($ftime);
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function reduce(&$time, $denom, $symbol)

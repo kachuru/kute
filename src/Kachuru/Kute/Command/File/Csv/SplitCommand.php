@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SplitCommand extends Command
 {
-    public function configure()
+    public function configure(): void
     {
         $this->setName('file:csv:split');
         $this->addArgument('filename', InputArgument::REQUIRED, 'CSV file to split');
@@ -21,7 +21,7 @@ class SplitCommand extends Command
         $this->addOption('preserve-headers', 'p', InputOption::VALUE_NONE, 'Preserve headers');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $filename = $input->getArgument('filename');
 
@@ -58,7 +58,7 @@ class SplitCommand extends Command
 
         fclose($fhr);
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function generateOutputFilenames(string $filename, int $numFiles): iterable

@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DecodeCommand extends Command
 {
-    public function configure()
+    public function configure(): void
     {
         $this->setName('jwt:decode');
         $this->addArgument('jwt', InputArgument::REQUIRED);
@@ -24,7 +24,7 @@ class DecodeCommand extends Command
         parent::configure();
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $key = new Key(
             $input->getOption('signature'),
@@ -33,6 +33,6 @@ class DecodeCommand extends Command
 
         $output->writeln(print_r(JWT::decode($input->getArgument('jwt'), $key), true));
 
-        return 0;
+        return self::SUCCESS;
     }
 }
