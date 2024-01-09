@@ -8,7 +8,7 @@ use App\DependencyInjection\CommandPass;
 
 class AppBundle extends Bundle
 {
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(
             new CommandPass(

@@ -24,7 +24,6 @@ class SplitCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $filename = $input->getArgument('filename');
-
         if (!file_exists($filename)) {
             throw new \InvalidArgumentException(sprintf('File "%s" could not be found', $filename));
         }
