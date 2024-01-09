@@ -6,6 +6,7 @@ namespace Kachuru\Kute\Command;
 
 use App\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class PharcicalCommand extends Command
@@ -17,6 +18,7 @@ class PharcicalCommand extends Command
     {
         $this->setName('pharcical');
         $this->setDescription('Create a phar file based on this project');
+        $this->addOption('algorithm', 'a', InputOption::VALUE_OPTIONAL, 'Algorithm for file hash', 'SHA256');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -42,7 +44,11 @@ class PharcicalCommand extends Command
             $phar->compressFiles(\Phar::GZ);
             chmod(self::PHAR_FILENAME, 0770);
 
-            $output->writeln(sprintf('%s successfully created', self::PHAR_FILENAME));
+            $output->writeln(sprintf(
+                '%s: %s',
+                hash_file($input->getOption('algorithm'), self::PHAR_FILENAME),
+                self::PHAR_FILENAME
+            ));
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
