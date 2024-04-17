@@ -32,9 +32,8 @@ class RollCommand extends Command
     {
         $output->writeln(
             sprintf(
-                'Rolled %s and got %d',
-                $input->getArgument('format'),
-                $this->dice->roll($input->getArgument('format'))
+                '%d',
+                $this->dice->roll($input->getArgument('format') ?? 'd6')
             )
         );
 
