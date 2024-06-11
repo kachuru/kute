@@ -33,7 +33,7 @@ class CompareCommand extends Command
         $this->input = $input;
         $this->output = $output;
 
-        $canonicalDirectory = $input->getArgument('canonicalDirectory');
+        $canonicalDirectory = $this->appendTrailingSlash($input->getArgument('canonicalDirectory'));
         if (!file_exists($canonicalDirectory) || !is_dir($canonicalDirectory)) {
             throw new \InvalidArgumentException('Please provide a directory');
         }
@@ -41,39 +41,88 @@ class CompareCommand extends Command
         $output->writeln(sprintf('Building file index for [%s] ...', $canonicalDirectory));
         $this->buildIndex($canonicalDirectory);
 
-        $output->writeln('Scanning directory for duplicates...');
+        $compareDirectory = $input->getArgument('comparisonDirectory');
+        if (!is_null($compareDirectory)) {
+            $compareDirectory = $this->appendTrailingSlash($compareDirectory);
+            $output->writeln(sprintf('Scanning for duplicates in [%s]...', $compareDirectory));
 
-        return 0;
+            $this->scanDirectory($compareDirectory);
+        }
+
+        return self::SUCCESS;
     }
 
     private function buildIndex(string $path): void
     {
+        $this->recurseDirectoryWithFileAction(
+            $path,
+            function (string $fullEntry) {
+                $this->addFileToIndex($fullEntry);
+            }
+        );
+    }
+
+    private function scanDirectory(string $directory): void
+    {
+        $this->recurseDirectoryWithFileAction(
+            $directory,
+            function (string $fullEntry): void {
+                $this->checkFileInIndex($fullEntry);
+            }
+        );
+    }
+
+    private function recurseDirectoryWithFileAction(string $path, callable $fileAction): void
+    {
         $dir = Dir($path);
         while (false !== ($entry = $dir->read())) {
-            $fullEntry = $path . $entry;
-            if (!file_exists($fullEntry)) {
-                throw new \RuntimeException('Critical file failure: ' . $fullEntry);
+            $filename = $path . $entry;
+            if (!file_exists($filename)) {
+                throw new \RuntimeException('Critical file failure: ' . $filename);
             }
 
             if (in_array($entry, ['.', '..'])) {
                 continue;
             }
 
-            if (is_dir($fullEntry)) {
-                $this->buildIndex($fullEntry . DIRECTORY_SEPARATOR);
+            if (is_dir($filename)) {
+                $this->recurseDirectoryWithFileAction($filename . DIRECTORY_SEPARATOR, $fileAction);
             } else {
-                $this->addFileToIndex($fullEntry);
+                $fileAction($filename);
             }
         }
     }
 
-    private function addFileToIndex(string $fullEntry): void
+    private function addFileToIndex(string $filename): void
     {
-        $sha = sha1_file($fullEntry);
+        $sha = $this->getHash($filename);
         if (!$this->input->getOption('silent') && array_key_exists($sha, $this->index)) {
-            $this->output->writeln(sprintf('Warning when indexing %s: File %s already exists', $fullEntry, $this->index[$sha][0]));
+            $this->output->writeln(sprintf('Warning when indexing %s: File %s already exists', $filename, $this->index[$sha][0]));
         }
 
-        $this->index[sha1_file($fullEntry)][] = $fullEntry;
+        $this->index[$sha][] = $filename;
+    }
+
+    private function checkFileInIndex(string $filename): void
+    {
+        $fileHash = $this->getHash($filename);
+        if (array_key_exists($fileHash, $this->index)) {
+            $this->output->writeln(sprintf('File "%s" is duplicated by: "%s"', $this->index[$fileHash][0], $filename));
+        }
+    }
+
+
+    private function appendTrailingSlash(string $directory): string
+    {
+        if (!str_ends_with($directory, DIRECTORY_SEPARATOR)) {
+            $directory .= DIRECTORY_SEPARATOR;
+        }
+
+        return $directory;
+    }
+
+    private function getHash(string $fullEntry): string
+    {
+        return sha1_file($fullEntry);
     }
 }
