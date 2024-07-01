@@ -108,6 +108,10 @@ class CompareCommand extends Command
         $fileHash = $this->getHash($filename);
         if (array_key_exists($fileHash, $this->index)) {
             $this->output->writeln(sprintf('File "%s" is duplicated by: "%s"', $this->index[$fileHash][0], $filename));
+
+            if ($this->input->getOption('delete')) {
+                unlink($filename);
+            }
         }
     }
 
