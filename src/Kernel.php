@@ -29,14 +29,22 @@ class Kernel extends BaseKernel
         return \dirname(__DIR__);
     }
 
+    public function getVarDir(): string
+    {
+        $projectVarDir = $this->getProjectDir().'/var';
+        return (file_exists($projectVarDir) && is_writable($projectVarDir))
+            ? $projectVarDir
+            : \sys_get_temp_dir().'/kute/var/'.$this->environment;
+    }
+
     public function getCacheDir(): string
     {
-        return \sys_get_temp_dir().'/kute/var/'.$this->environment.'/cache/';
+        return $this->getVarDir().'/cache/';
     }
 
     public function getLogDir(): string
     {
-        return \sys_get_temp_dir().'/kute/var/'.$this->environment.'/log/';
+        return $this->getVarDir().'/log/';
     }
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void

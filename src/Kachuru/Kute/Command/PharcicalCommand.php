@@ -39,7 +39,7 @@ class PharcicalCommand extends Command
             $phar = new \Phar(self::PHAR_FILENAME);
             $phar->startBuffering();
             $phar->setStub($this->generateStub($phar));
-            $phar->buildFromDirectory('.');
+            $phar->buildFromDirectory('.', '#/(config|home|public|src|translations|vendor)/#');
             $phar->stopBuffering();
             $phar->compressFiles(\Phar::GZ);
             chmod(self::PHAR_FILENAME, 0770);
