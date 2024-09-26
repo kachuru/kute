@@ -45,5 +45,13 @@ services:
         public: true
 
     Kachuru\Kute\Command\Network\CloudflareCheckIpsCommand:
-        arguments: ["%kernel.cache_dir%"]
+        arguments: ['%kernel.cache_dir%']
         tags: ['app.console.command']
+
+    Kachuru\Kute\Tools\TemplateProvider:
+        calls:
+            - addTemplate: ['@Kachuru\Kute\Tools\Template\GitTemplate']
+            - addTemplate: ['@Kachuru\Kute\Tools\Template\ScreenTemplate']
+            - addTemplate: ['@Kachuru\Kute\Tools\Template\VimTemplate']
+            - addTemplate: ['@Kachuru\Kute\Tools\Template\Ohmyzsh\OhmyzshEditorTemplate']
+            - addTemplate: ['@Kachuru\Kute\Tools\Template\Ohmyzsh\OhmyzshKeychainTemplate']

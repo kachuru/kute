@@ -1,0 +1,22 @@
+[color]
+        diff = true
+        status = true
+        branch = true
+[merge]
+        log = true
+[alias]
+        lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+        ql = "log --oneline --no-merges"
+[push]
+        default = current
+[rerere]
+        enabled = 0
+[user]
+        email = {{email}}
+        name = {{name}}
+[core]
+        excludesFile = ~/.gitignore
+[pull]
+        ff = only
+[init]
+        defaultBranch = main

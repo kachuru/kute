@@ -14,7 +14,8 @@
         "symfony/flex": "^1.21",
         "symfony/framework-bundle": "^5.4",
         "symfony/translation": "^6.0",
-        "symfony/yaml": "^6.0"
+        "symfony/yaml": "^6.0",
+        "twig/twig": "^3.14"
     },
     "require-dev": {
         "symfony/dotenv": "^6.0",
