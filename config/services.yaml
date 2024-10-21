@@ -44,6 +44,9 @@ services:
         tags: ['app.console.command']
         public: true
 
+    Kachuru\DealOrNoDeal\Box:
+        autowire: false
+
     Kachuru\Kute\Command\Network\CloudflareCheckIpsCommand:
         arguments: ['%kernel.cache_dir%']
         tags: ['app.console.command']
