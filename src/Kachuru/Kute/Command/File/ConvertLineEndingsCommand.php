@@ -23,48 +23,35 @@ class ConvertLineEndingsCommand extends Command
         $this->setName('file:convert-line-endings');
         $this->setAliases(['fixle', 'file:fixle']);
         $this->addArgument('filename', InputArgument::REQUIRED, 'Filename to convert');
-        $this->addOption('unix', 'u', InputOption::VALUE_NONE, 'Convert to Unix line-endings');
-        $this->addOption('windows', 'w', InputOption::VALUE_NONE, 'Convert to Windows line-endings');
-        $this->addOption('mac', 'm', InputOption::VALUE_NONE, 'Convert to Mac line-endings');
+        $this->addOption(
+            'type',
+            't',
+            InputOption::VALUE_OPTIONAL,
+            'Line-endings type to convert to (windows/mac/unix)',
+            'unix'
+        );
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         ini_set('auto_detect_line_endings', "1");
 
-        $filename = $input->getArgument('filename');
-
-        $unix = $input->getOption('unix');
-        $windows = $input->getOption('windows');
-        $mac = $input->getOption('mac');
-
-        if ((int) $unix + (int) $windows + (int) $mac == 0) {
-            $unix = true;
+        $filename = realpath($input->getArgument('filename'));
+        if (!$filename) {
+            throw new \InvalidArgumentException(sprintf('"%s" file does not exist', $input->getArgument('filename')));
         }
 
-        if ((int) $unix + (int) $windows + (int) $mac > 1) {
-            throw new \InvalidArgumentException('Can only specify one of unix, windows or mac type line-endings');
+        $type = $input->getOption('type');
+        if (!array_key_exists($type, self::LINE_ENDINGS)) {
+            throw new \InvalidArgumentException(sprintf('"%s" is not a valid line-endings type', $type));
         }
 
-        if (!file_exists($filename)) {
-            throw new \InvalidArgumentException(sprintf('"%s" file does not exist', $filename));
-        }
-
-        $le = self::LINE_ENDINGS['unix'];
-
-        if ($windows) {
-            $le = self::LINE_ENDINGS['windows'];
-        }
-
-        if ($mac) {
-            $le = self::LINE_ENDINGS['mac'];
-        }
+        $le = self::LINE_ENDINGS[$type];
 
         $fh = fopen($filename, 'r');
 
-        while (true !== feof($fh)) {
-            $line = rtrim(fgets($fh));
-            $output->write($line . $le);
+        while (false !== ($line = fgets($fh))) {
+            $output->write(rtrim($line) . $le);
         }
 
         fclose($fh);
