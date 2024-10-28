@@ -34,6 +34,7 @@
     },
     "autoload": {
         "psr-4": {
+            "Kachuru\\DealOrNoDeal\\": "src/Kachuru/DealOrNoDeal/",
             "Kachuru\\Kute\\": "src/Kachuru/Kute/",
             "App\\": "src/"
         }
