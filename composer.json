@@ -18,6 +18,7 @@
         "twig/twig": "^3.14"
     },
     "require-dev": {
+        "phpmd/phpmd": "^2.15",
         "phpspec/phpspec": "^7.5",
         "phpstan/phpstan": "^1.12",
         "squizlabs/php_codesniffer": "^3.10",
@@ -67,6 +68,9 @@
         ],
         "analyse": [
             "vendor/bin/phpstan analyse"
+        ],
+        "mess": [
+            "vendor/bin/phpmd ./src text ./phpmd.xml"
         ],
         "test": [
             "@sniff",
