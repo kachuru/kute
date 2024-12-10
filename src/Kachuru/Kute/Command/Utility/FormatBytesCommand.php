@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Kachuru\Kute\Command;
+namespace Kachuru\Kute\Command\Utility;
 
 use App\Command\Command;
-
 use Kachuru\Util\Math;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FormatBytesCommand extends Command
@@ -25,7 +23,7 @@ class FormatBytesCommand extends Command
 
     public function configure(): void
     {
-        $this->setName('format-bytes');
+        $this->setName('utility:format-bytes');
         $this->setAliases(['fbytes']);
         $this->setDescription('Format bytes into human-readable format');
         $this->addArgument('bytes', InputArgument::REQUIRED, 'Number of bytes to format');
