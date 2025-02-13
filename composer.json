@@ -60,10 +60,10 @@
             "vendor/bin/phpspec run"
         ],
         "sniff": [
-            "vendor/bin/phpcs --standard=PSR2 src/"
+            "vendor/bin/phpcs --standard=phpcs.xml src/"
         ],
         "fix": [
-            "vendor/bin/phpcbf --standard=PSR2 src/"
+            "vendor/bin/phpcbf --standard=phpcs.xml src/"
         ],
         "analyse": [
             "vendor/bin/phpstan analyse"
