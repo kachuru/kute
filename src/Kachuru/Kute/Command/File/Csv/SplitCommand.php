@@ -12,6 +12,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SplitCommand extends Command
 {
+    private const CSV_ESCAPE_CHAR = "\\";
+
     public function configure(): void
     {
         $this->setName('file:csv:split');
@@ -34,7 +36,7 @@ class SplitCommand extends Command
         $fhr = fopen($filename, 'r');
 
         $headers = $input->getOption('preserve-headers')
-            ? fgetcsv($fhr)
+            ? $this->fetchLine($fhr)
             : [];
 
         $filenames = $this->generateOutputFilenames($filename, (int) $input->getOption('files'));
@@ -43,12 +45,12 @@ class SplitCommand extends Command
             $fhw = fopen($filename, 'w+');
 
             if ($input->getOption('preserve-headers')) {
-                fputcsv($fhw, $headers);
+                $this->writeLine($fhw, $headers);
             }
 
             $row = 0;
             while (!feof($fhr) && $row < $numRowsPerFile) {
-                fputcsv($fhw, fgetcsv($fhr));
+                $this->writeLine($fhw, $this->fetchLine($fhr));
                 $row++;
             }
 
@@ -73,16 +75,37 @@ class SplitCommand extends Command
         $fh = fopen($filename, 'r');
 
         if ($preserveHeaders) {
-            fgetcsv($fh);
+            $this->fetchLine($fh);
         }
 
         $numRows = 0;
-        while (false !== fgetcsv($fh)) {
+        while (false !== $this->fetchLine($fh)) {
             $numRows++;
         }
 
         fclose($fh);
 
         return $numRows;
+    }
+
+    /**
+     * @param resource $fh
+     *
+     * @return string[]|false
+     */
+    private function fetchLine($fh): array|false
+    {
+        return fgetcsv(stream: $fh, escape: self::CSV_ESCAPE_CHAR);
+    }
+
+    /**
+     * @param resource $fh
+     * @param array<string|int> $line
+     *
+     * @return false|int
+     */
+    private function writeLine($fh, array $line): false|int
+    {
+        return fputcsv(stream: $fh, fields: $line, escape: self::CSV_ESCAPE_CHAR);
     }
 }

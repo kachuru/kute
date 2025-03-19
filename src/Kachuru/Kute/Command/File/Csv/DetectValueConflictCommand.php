@@ -36,7 +36,7 @@ class DetectValueConflictCommand extends Command
         foreach ($files as $file) {
             $fh = fopen($file, 'r');
 
-            $headers = fgetcsv($fh);
+            $headers = $this->fetchLine($fh);
 
             if (!in_array($key, $headers)) {
                 throw new \InvalidArgumentException(sprintf('%s is not present as a header in %s', $key, $file));
@@ -46,7 +46,7 @@ class DetectValueConflictCommand extends Command
             while (!feof($fh)) {
                 $rowNo++;
 
-                $line = fgetcsv($fh);
+                $line = $this->fetchLine($fh);
 
                 if (false !== $line) {
                     $row = array_combine($headers, $line);
@@ -79,5 +79,15 @@ class DetectValueConflictCommand extends Command
         print_r($conflicts);
 
         return self::SUCCESS;
+    }
+
+    /**
+     * @param resource $fh
+     *
+     * @return string[]|false
+     */
+    private function fetchLine($fh): array|false
+    {
+        return fgetcsv(stream: $fh, escape: "\\");
     }
 }

@@ -18,6 +18,7 @@
         "twig/twig": "^3.14"
     },
     "require-dev": {
+        "phpcompatibility/php-compatibility": "dev-develop",
         "phpspec/phpspec": "^7.5",
         "phpstan/phpstan": "^1.12",
         "squizlabs/php_codesniffer": "^3.10",
@@ -29,6 +30,7 @@
         },
         "sort-packages": true,
         "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
             "symfony/flex": true
         }
     },
@@ -65,13 +67,22 @@
         "fix": [
             "vendor/bin/phpcbf --standard=phpcs.xml src/"
         ],
+        "compatibility": [
+            "vendor/bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 8.2- src/",
+            "vendor/bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 8.3- src/",
+            "vendor/bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 8.4- src/"
+        ],
         "analyse": [
             "vendor/bin/phpstan analyse"
         ],
-        "test": [
+        "quality": [
             "@sniff",
-            "@spec",
+            "@compatibility",
             "@analyse"
+        ],
+        "test": [
+            "@quality",
+            "@spec"
         ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
