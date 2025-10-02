@@ -16,7 +16,7 @@ class TicketsCommand extends Command
     public function configure(): void
     {
         $this->setName('tickets');
-
+        $this->setDescription('Pipe in the output of a git log command to show a list of JIRA ticket numbers');
         $this->addOption(
             'separator',
             's',
