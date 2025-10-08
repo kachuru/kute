@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kachuru\Kute\Command;
+namespace Kachuru\Kute\Command\File;
 
 use App\Command\Command;
 use GuzzleHttp\Client;
@@ -11,21 +11,22 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-class FetchImagesCommand extends Command
+class ImagesFetchCommand extends Command
 {
     private Client $httpClient;
 
     public function __construct()
     {
         parent::__construct();
+
         $this->httpClient = new Client();
     }
 
-    public function configure(): void
+    protected function configure(): void
     {
-        $this->setName('fetch-images');
+        $this->setName('file:images:fetch');
+        $this->setDescription('Download image files from URLs listed in input file');
         $this->addArgument('filename', InputArgument::REQUIRED, 'List of images to fetch');
         $this->addArgument('download-dir', InputArgument::REQUIRED, 'Directory to download to');
         $this->addOption(
@@ -36,7 +37,7 @@ class FetchImagesCommand extends Command
         );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $filename = $input->getArgument('filename');
         $downloadDir = $input->getArgument('download-dir');
@@ -46,7 +47,7 @@ class FetchImagesCommand extends Command
         }
 
         if (!file_exists($downloadDir) || !is_writable($downloadDir)) {
-            throw new \InvalidArgumentException('The download directory is pants');
+            throw new \InvalidArgumentException('The download directory is not writable');
         }
 
         $urls = file($filename);
@@ -55,6 +56,10 @@ class FetchImagesCommand extends Command
 
         foreach ($urls as $url) {
             $url = trim($url);
+
+            if (empty($url)) {
+                continue;
+            }
 
             if ($dryRun) {
                 try {
@@ -66,7 +71,7 @@ class FetchImagesCommand extends Command
                 try {
                     $output->write(sprintf('Downloading %s...', $url));
                     $basename = $downloadDir . DIRECTORY_SEPARATOR . basename($url);
-                    $fileContent = file_get_contents(trim($url));
+                    $fileContent = file_get_contents($url);
                     $output->write(sprintf(' Writing to %s', $basename));
                     file_put_contents($basename, $fileContent);
                     $output->writeln(' Done');
