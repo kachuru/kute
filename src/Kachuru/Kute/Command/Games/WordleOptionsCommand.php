@@ -28,26 +28,25 @@ class WordleOptionsCommand extends Command
     {
         $this->combinations = $combinations;
         $this->math = $math;
+
         parent::__construct();
     }
 
     public function configure(): void
     {
         $this->setName('games:wordle:options');
-
+        $this->setDescription('Present options for Wordle based on patterns and used & known letters');
         $this->addArgument(
             'pattern',
             InputArgument::REQUIRED,
             'Pattern based on known letters (e.g. P_A__,_PA__,__A_P)'
         );
-
         $this->addOption(
             'known-letters',
             'k',
             InputOption::VALUE_OPTIONAL,
             'Letters that are known, but not the position'
         );
-
         $this->addOption(
             'used-letters',
             'u',
