@@ -4,38 +4,35 @@ namespace Kachuru\Kute\Command\Network;
 
 use App\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CloudflareCheckIpsCommand extends Command
 {
-    const CF_HOST = 'https://www.cloudflare.com/';
+    private const CF_HOST = 'https://www.cloudflare.com/';
+    private const IPV4_LIST = 'ips-v4';
+    private const IPV6_LIST = 'ips-v6';
+    private const IP_LISTS = [self::IPV4_LIST, self::IPV6_LIST];
 
-    const IPV4_LIST = 'ips-v4';
-
-    const IPV6_LIST = 'ips-v6';
-
-    const IP_LISTS = [self::IPV4_LIST, self::IPV6_LIST];
-
-    const MAIL_TO = 'web@kachuru.uk';
-
-    const MAIL_FROM = 'server@kachuru.uk';
-
-    private string $cacheDir;
-
-    public function __construct(string $cacheDir)
-    {
-        $this->cacheDir = $cacheDir;
-
+    public function __construct(
+        private readonly string $cacheDir
+    ) {
         parent::__construct();
     }
 
     public function configure(): void
     {
         $this->setName('network:cloudflare-check-ips');
+        $this->setDescription('Download the cloudflare IP whitelist, and check for changes');
+        $this->addOption('mail-to', null, InputOption::VALUE_OPTIONAL);
+        $this->addOption('send-from', null, InputOption::VALUE_OPTIONAL);
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        $mailTo = $input->getOption('mail-to');
+        $sendFrom = $input->getOption('send-from');
+
         if (!$this->checkLocalFiles()) {
             return $this->createLocalFiles();
         }
@@ -43,12 +40,18 @@ class CloudflareCheckIpsCommand extends Command
         if (!$this->checkRemoteList()) {
             $output->writeln("Cloudflare IPs are out-of-date");
 
-            mail(
-                self::MAIL_TO,
-                'Cloudflare IP List Out-of-Date',
-                'The cloudflare IP list needs updating',
-                ['From' => self::MAIL_FROM]
-            );
+            if (!empty($mailTo)) {
+                if (empty($sendFrom)) {
+                    $sendFrom = $mailTo;
+                }
+
+                mail(
+                    $mailTo,
+                    'Cloudflare IP List Out-of-Date',
+                    'The cloudflare IP list needs updating',
+                    ['From' => $sendFrom]
+                );
+            }
         }
 
         return self::SUCCESS;
