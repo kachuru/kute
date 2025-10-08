@@ -15,13 +15,12 @@ class DetectValueConflictCommand extends Command
     public function configure(): void
     {
         $this->setName('file:csv:detect-value-conflict');
-
+        $this->setDescription('Check for conflicts of values in the given CSVs');
         $this->addArgument(
             'filenames',
             InputArgument::REQUIRED | InputArgument::IS_ARRAY,
             'Filename to check for file conflicts'
         );
-
         $this->addOption('key', 'k', InputOption::VALUE_REQUIRED, 'Key to check for duplicate values');
     }
 

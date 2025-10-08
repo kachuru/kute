@@ -17,6 +17,7 @@ class SplitCommand extends Command
     public function configure(): void
     {
         $this->setName('file:csv:split');
+        $this->setDescription('Split a CSV into multiple files');
         $this->addArgument('filename', InputArgument::REQUIRED, 'CSV file to split');
         $this->addOption('files', 'f', InputOption::VALUE_OPTIONAL, 'Number of files to split into', 2);
         // $this->addOption('rows', 'r', InputOption::VALUE_OPTIONAL, 'Number of rows per file');
