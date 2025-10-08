@@ -17,6 +17,7 @@ class TunnelNannyCommand extends Command
     public function configure(): void
     {
         $this->setName('network:tunnel:nanny');
+        $this->setDescription('Set up and monitor an SSH tunnel');
         $this->addArgument('host', InputArgument::REQUIRED, 'The host to establish connection to');
         $this->addArgument('port', InputArgument::REQUIRED, 'The port to connect to');
     }
