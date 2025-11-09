@@ -55,3 +55,12 @@ services:
             - addTemplate: ['@Kachuru\Kute\Tools\Template\VimTemplate']
             - addTemplate: ['@Kachuru\Kute\Tools\Template\Ohmyzsh\OhmyzshEditorTemplate']
             - addTemplate: ['@Kachuru\Kute\Tools\Template\Ohmyzsh\OhmyzshKeychainTemplate']
+
+    Kachuru\Lottery\ResultsFile:
+        arguments: ['%kernel.project_dir%/var/lottery-results.csv']
+
+    Kachuru\File\Csv:
+        autowire: false
+
+    Kachuru\Lottery\Results:
+        autowire: false

@@ -36,7 +36,9 @@
     },
     "autoload": {
         "psr-4": {
+            "Kachuru\\File\\": "src/Kachuru/File/",
             "Kachuru\\Kute\\": "src/Kachuru/Kute/",
+            "Kachuru\\Lottery\\": "src/Kachuru/Lottery/",
             "App\\": "src/"
         }
     },
