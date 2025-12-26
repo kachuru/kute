@@ -48,6 +48,9 @@ services:
         arguments: ['%kernel.cache_dir%']
         tags: ['app.console.command']
 
+    Kachuru\Kute\Experiment\GeneMonkey\Organism:
+        autowire: false
+
     Kachuru\Kute\Tools\TemplateProvider:
         calls:
             - addTemplate: ['@Kachuru\Kute\Tools\Template\GitTemplate']
