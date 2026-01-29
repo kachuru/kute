@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c7daa945f636c43f680154d438db1495",
+    "content-hash": "6da32934e862ab95c7196ea5cd4537e0",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -396,31 +396,32 @@
         },
         {
             "name": "kachuru/util",
-            "version": "1.6.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kachuru/util.git",
-                "reference": "dcd2fa64303fe1f872b47a6865f189431ae0a477"
+                "reference": "1d8a1b805aff2035e0a477477e9e5d3933521d01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kachuru/util/zipball/dcd2fa64303fe1f872b47a6865f189431ae0a477",
-                "reference": "dcd2fa64303fe1f872b47a6865f189431ae0a477",
+                "url": "https://api.github.com/repos/kachuru/util/zipball/1d8a1b805aff2035e0a477477e9e5d3933521d01",
+                "reference": "1d8a1b805aff2035e0a477477e9e5d3933521d01",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1|>=8.2"
+                "ext-bcmath": "*",
+                "php": ">=8.2|>=8.3"
             },
             "require-dev": {
                 "phpcompatibility/php-compatibility": "dev-develop",
-                "phpspec/phpspec": "^7.4",
-                "phpstan/phpstan": "^1.10",
-                "squizlabs/php_codesniffer": "^3.8"
+                "phpspec/phpspec": "^7.6",
+                "phpstan/phpstan": "^2.1",
+                "squizlabs/php_codesniffer": "^3.13"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Kachuru\\": "src/Kachuru/"
+                    "Kachuru\\Util\\": "src/Kachuru/Util/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -436,9 +437,9 @@
             "description": "Utility classes and methods that are fun to have around",
             "support": {
                 "issues": "https://github.com/kachuru/util/issues",
-                "source": "https://github.com/kachuru/util/tree/1.6.0"
+                "source": "https://github.com/kachuru/util/tree/2.0.0"
             },
-            "time": "2024-01-09T11:56:49+00:00"
+            "time": "2025-07-31T11:58:58+00:00"
         },
         {
             "name": "psr/cache",
