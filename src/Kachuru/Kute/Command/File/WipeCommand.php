@@ -18,6 +18,7 @@ class WipeCommand extends Command
     {
         $this->setName('file:wipe');
         $this->setAliases(['wipe']);
+        $this->setDescription('Wipe file');
         $this->addArgument('filename', InputArgument::REQUIRED, 'File to wipe');
     }
 

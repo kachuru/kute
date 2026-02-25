@@ -17,6 +17,7 @@ class DecodeCommand extends Command
     public function configure(): void
     {
         $this->setName('jwt:decode');
+        $this->setDescription('Decode a JWT token');
         $this->addArgument('jwt', InputArgument::REQUIRED);
         $this->addOption('signature', 's', InputOption::VALUE_REQUIRED);
         $this->addOption('algorithm', 'a', InputOption::VALUE_OPTIONAL, 'One of HS256, HS384, HS512', 'HS512');
