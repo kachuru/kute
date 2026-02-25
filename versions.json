@@ -18,5 +18,9 @@
     "3.1.4": {
         "version": "3.1.4",
         "SHA256": "dc6442a671a04035f82031d75d24ef6e61ddb0819b24e79f2ce66e2fd91a5afe"
+    },
+    "8.2.0": {
+        "version": "8.2.0",
+        "SHA256": "885c9ece8eff85a5b826b0d0e35840da835686541347daf333256cfcefc2b142"
     }
 }
