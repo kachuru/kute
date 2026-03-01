@@ -34,6 +34,10 @@ services:
         resource: '../src/Kachuru/*'
         public: true
 
+    Kachuru\Kute\File\:
+        resource: '../src/Kachuru/Kute/File/*'
+        autowire: false
+
     Kachuru\Util\:
         resource: '../vendor/kachuru/util/src/Kachuru/Util/*'
 
