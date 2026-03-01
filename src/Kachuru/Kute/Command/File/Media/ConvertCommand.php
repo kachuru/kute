@@ -11,27 +11,30 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ConvertCommand extends Command
 {
-    public function configure()
+    public function configure(): void
     {
-        $this->setName('file:media:convert');
+        $this
+            ->setName('file:media:convert')
+            ->setDescription('Convert media files in directory to MP4 (assuming codec installed)')
+            ->addArgument('directory', InputArgument::REQUIRED, 'Directory to scan');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (!isset($argv[1]) || !is_dir($argv[1])) {
+        $directoryName = $input->getArgument('directory');
+        if (!is_dir($directoryName)) {
             die("Provide directory to scan\n");
         }
 
-        $directory = Dir($argv[1]);
-
+        $directory = Dir($directoryName);
         $filesToProcess = [];
 
         while ($file = $directory->read()) {
             if (!is_dir($file)) {
                 $finfo = pathinfo($file);
                 if ($finfo['extension'] != 'mp4') {
-                    $oldFile = $argv[1] . $file;
-                    $newFile = $argv[1] . $finfo['filename'] . '.mp4';
+                    $oldFile = $directoryName . $file;
+                    $newFile = $directoryName . $finfo['filename'] . '.mp4';
 
                     if (!file_exists($newFile)) {
                         $filesToProcess[$oldFile] = $newFile;
@@ -63,6 +66,6 @@ class ConvertCommand extends Command
             sleep(3);
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 }
