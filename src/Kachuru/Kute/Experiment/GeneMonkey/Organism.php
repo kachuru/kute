@@ -38,26 +38,27 @@ class Organism
         return $this->genotype;
     }
 
-    public function breedWith(Organism $partner): Organism {
+    public function breedWith(Organism $partner): Organism
+    {
         $genotype = array_map(
-            function($chr1, $chr2) {
-                $return = '';
+            function ($chr1, $chr2) {
+//                $return = '';
 
                 if (mt_rand(0, 99) === 0) {
-                    switch (mt_rand(0, 20)) {
-                        case 0:
-                            return $return;
-
-                        case 1:
-                            $return = self::getRandomCharacter();
-                            break;
-
-                        default:
+//                    switch (mt_rand(0, 99)) {
+//                        case 0:
+//                            return $return;
+//
+//                        case 1:
                             return self::getRandomCharacter();
-                    }
+//                            break;
+//
+//                        default:
+//                            return self::getRandomCharacter();
+//                    }
                 }
 
-                return $return . (mt_rand(0, 1) ? $chr1 : $chr2);
+                return mt_rand(0, 1) ? $chr1 : $chr2;
             },
             str_split($this->genotype),
             str_split($partner->genotype)
@@ -66,14 +67,14 @@ class Organism
         return new Organism(implode('', $genotype));
     }
 
+    public function __toString()
+    {
+        return sprintf('%s [%0.4f]', $this->genotype, $this->getFitness());
+    }
+
     private static function getRandomCharacter(): string
     {
         $chr = chr(mt_rand(97, 123));
         return ($chr === '{') ? ' ' : $chr;
-    }
-
-    function __toString()
-    {
-        return sprintf('%s [%0.4f]', $this->genotype, $this->getFitness());
     }
 }

@@ -37,14 +37,17 @@ class GeneMonkeyCommand extends Command
         for ($i = 1; $i <= $iterations; $i++) {
             $organisms = $this->getNextGeneration($organisms, $target);
             $fittest = null;
+
             foreach ($organisms as $organism) {
                 if (is_null($fittest) || $fittest->getFitness() < $organism->getFitness()) {
                     $fittest = $organism;
                 }
             }
+
             if ($fittest->getFitness() > $bestFitness) {
                 $bestFitness = $fittest->getFitness();
             }
+
             $output->writeln(sprintf('%4s: [%0.4f] %s', $i, $bestFitness, $fittest));
             if ($fittest->getFitness() >= 1) {
                 $output->writeln('This is the fittest organism');
@@ -61,7 +64,7 @@ class GeneMonkeyCommand extends Command
      *
      * @return array
      */
-    function getNextGeneration(array $organisms, string $target)
+    private function getNextGeneration(array $organisms, string $target)
     {
         $totalFitness = 0;
         $bestFitness = 0;
@@ -84,8 +87,12 @@ class GeneMonkeyCommand extends Command
         return $nextGen;
     }
 
-    function getRandomParent(array $organisms, $totalFitness): Organism
+    private function getRandomParent(array $organisms, $totalFitness): Organism
     {
+        if (count($organisms) === 0) {
+            throw new \RuntimeException('There are no organisms');
+        }
+
         $rouletteWheelValue = $totalFitness * mt_rand(0, mt_getrandmax() - 1) / mt_getrandmax();
         foreach ($organisms as $organism) {
             $rouletteWheelValue -= $organism->getFitness();
@@ -96,7 +103,7 @@ class GeneMonkeyCommand extends Command
         return $organism;
     }
 
-    function calculateFitness(string $target, Organism $organism): float
+    private function calculateFitness(string $target, Organism $organism): float
     {
         $fitValue = levenshtein($target, $organism->getGenotype()) / strlen($target);
         return  1 - $fitValue;
