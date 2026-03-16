@@ -396,16 +396,16 @@
         },
         {
             "name": "kachuru/util",
-            "version": "2.1.0",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kachuru/util.git",
-                "reference": "338c8bce7f2d8c9baf6af734a19572d9fa46d384"
+                "reference": "44468050194128fb1e0986b6a984874ba94a16b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kachuru/util/zipball/338c8bce7f2d8c9baf6af734a19572d9fa46d384",
-                "reference": "338c8bce7f2d8c9baf6af734a19572d9fa46d384",
+                "url": "https://api.github.com/repos/kachuru/util/zipball/44468050194128fb1e0986b6a984874ba94a16b3",
+                "reference": "44468050194128fb1e0986b6a984874ba94a16b3",
                 "shasum": ""
             },
             "require": {
@@ -437,9 +437,9 @@
             "description": "Utility classes and methods that are fun to have around",
             "support": {
                 "issues": "https://github.com/kachuru/util/issues",
-                "source": "https://github.com/kachuru/util/tree/2.1.0"
+                "source": "https://github.com/kachuru/util/tree/2.1.2"
             },
-            "time": "2026-02-25T15:24:58+00:00"
+            "time": "2026-03-12T10:33:07+00:00"
         },
         {
             "name": "psr/cache",
