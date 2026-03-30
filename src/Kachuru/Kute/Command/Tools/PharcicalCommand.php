@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kachuru\Kute\Command;
+namespace Kachuru\Kute\Command\Tools;
 
 use App\Command\Command;
+use Kachuru\Kute\Tools\VersionFile;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,11 +15,17 @@ class PharcicalCommand extends Command
 {
     private const PHAR_FILENAME = 'kute.phar';
     private const KUTE_ENTRYPOINT = 'bin/kute';
-    private const VERSION_FILE = 'versions.json';
+
+    public function __construct(
+        private readonly VersionFile $versionFile
+    ) {
+        parent::__construct();
+    }
 
     public function configure(): void
     {
-        $this->setName('pharcical');
+        $this->setName('tools:phar:create');
+        $this->setAliases(['pharcical']);
         $this->setDescription('Create a phar file based on this project');
         $this->addArgument(
             'version',
@@ -54,17 +61,9 @@ class PharcicalCommand extends Command
             chmod(self::PHAR_FILENAME, 0770);
 
             $algo = $input->getOption('algorithm');
-            $fileHash = hash_file($algo, self::PHAR_FILENAME);
-            $output->writeln(sprintf('%s: %s', $fileHash, self::PHAR_FILENAME));
+            $fileHash = $this->versionFile->addVersion($newVersion, self::PHAR_FILENAME, $algo);
 
-            if (file_exists(self::VERSION_FILE)) {
-                $versions = json_decode(file_get_contents(self::VERSION_FILE), true);
-            }
-            $versions[$newVersion] = [
-                'version' => $newVersion,
-                $algo => $fileHash
-            ];
-            file_put_contents(self::VERSION_FILE, json_encode($versions, JSON_PRETTY_PRINT));
+            $output->writeln(sprintf('%s: %s', $fileHash, self::PHAR_FILENAME));
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
