@@ -38,5 +38,9 @@
     "4.1.0": {
         "version": "4.1.0",
         "SHA256": "74d21dac6c36e6e2670009f2d52ac5c1e16049106f41cddc2050d5dbde2e26d5"
+    },
+    "4.2.0": {
+        "version": "4.2.0",
+        "SHA256": "1a33dc2e0742ca1cbcb84312c74f8fdf3bac50946ac80e2f88471b0fa6dfa717"
     }
 }
