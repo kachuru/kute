@@ -15,20 +15,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 class WordleOptionsCommand extends Command
 {
     private const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-    private Combinations $combinations;
-
-    private Math $math;
-
     private array $availableLetters = [];
-
     private array $words = [];
 
-    public function __construct(Combinations $combinations, Math $math)
-    {
-        $this->combinations = $combinations;
-        $this->math = $math;
-
+    public function __construct(
+        private readonly Combinations $combinations,
+        private readonly Math $math
+    ) {
         parent::__construct();
     }
 
