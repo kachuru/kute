@@ -12,11 +12,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RollCommand extends Command
 {
-    private Dice $dice;
-
-    public function __construct(Dice $dice)
-    {
-        $this->dice = $dice;
+    public function __construct(
+        private readonly Dice $dice
+    ) {
         parent::__construct();
     }
 
