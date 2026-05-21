@@ -21,6 +21,7 @@ class RollCommand extends Command
     protected function configure(): void
     {
         $this->setName('utility:roll');
+        $this->setAliases(['roll']);
         $this->setDescription('Roll a dice.');
         $this->addArgument('format', InputArgument::OPTIONAL, 'The format of the dice to roll, e.g.: d6, 2d4, 3d5+3');
     }
