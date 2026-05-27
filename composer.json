@@ -4,7 +4,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=8.3|>=8.4",
+        "php": ">=8.3|>=8.4|>=8.5",
         "ext-bcmath": "*",
         "ext-libxml": "*",
         "firebase/php-jwt": "^7.0",
@@ -70,9 +70,9 @@
             "vendor/bin/phpcbf --standard=phpcs.xml src/"
         ],
         "compatibility": [
-            "vendor/bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 8.2- src/",
             "vendor/bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 8.3- src/",
-            "vendor/bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 8.4- src/"
+            "vendor/bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 8.4- src/",
+            "vendor/bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 8.5- src/"
         ],
         "analyse": [
             "vendor/bin/phpstan analyse"
