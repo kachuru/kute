@@ -8,11 +8,10 @@ use Kachuru\Kute\Tools\Template;
 
 class ScreenTemplate implements Template
 {
-    private const NAME = '`screen` configuration';
-    private const TEMPLATE_FILE = 'screenrc.tmpl';
-    private const TARGET_LOCATION = '~/.screenrc';
-    private const TEMPLATE_DATA = [
-    ];
+    private const string NAME = '`screen` configuration';
+    private const string TEMPLATE_FILE = 'screenrc.tmpl';
+    private const string TARGET_LOCATION = '~/.screenrc';
+    private const array TEMPLATE_DATA = [];
 
     public function getName(): string
     {

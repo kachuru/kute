@@ -8,10 +8,10 @@ use Kachuru\Kute\Tools\Template;
 
 class GitTemplate implements Template
 {
-    private const NAME = '`git` configuration';
-    private const TEMPLATE_FILE = 'gitconfig.tmpl';
-    private const TARGET_LOCATION = '~/.gitconfig';
-    private const TEMPLATE_DATA = [
+    private const string NAME = '`git` configuration';
+    private const string TEMPLATE_FILE = 'gitconfig.tmpl';
+    private const string TARGET_LOCATION = '~/.gitconfig';
+    private const array TEMPLATE_DATA = [
         'name' => 'Please enter your full name, as you would like it to appear in the git history',
         'email' => 'Please enter your email address',
     ];
