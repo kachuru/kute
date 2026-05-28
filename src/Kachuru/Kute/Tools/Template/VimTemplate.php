@@ -8,9 +8,9 @@ use Kachuru\Kute\Tools\Template;
 
 class VimTemplate implements Template
 {
-    private const NAME = '`vim` configuration';
-    private const TEMPLATE_FILE = 'vimrc.tmpl';
-    private const TARGET_LOCATION = '~/.vimrc';
+    private const string NAME = '`vim` configuration';
+    private const string TEMPLATE_FILE = 'vimrc.tmpl';
+    private const string TARGET_LOCATION = '~/.vimrc';
 
     public function getName(): string
     {

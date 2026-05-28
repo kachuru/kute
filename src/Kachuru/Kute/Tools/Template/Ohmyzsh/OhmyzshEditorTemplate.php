@@ -8,10 +8,11 @@ use Kachuru\Kute\Tools\Template;
 
 class OhmyzshEditorTemplate implements Template
 {
-    private const NAME = 'Oh-My-Zsh editor configuration (vim)';
-    private const TEMPLATE_FILE = 'ohmyzsh/editor.zsh.tmpl';
-    private const TARGET_LOCATION = '~/.oh-my-zsh/custom/editor.zsh';
-    private const TEMPLATE_DATA = [];
+    private const string NAME = 'Oh-My-Zsh editor configuration (vim)';
+    private const string TEMPLATE_FILE = 'ohmyzsh/editor.zsh.tmpl';
+    private const string TARGET_LOCATION = '~/.oh-my-zsh/custom/editor.zsh';
+    private const array TEMPLATE_DATA = [];
+
     public function getName(): string
     {
         return self::NAME;

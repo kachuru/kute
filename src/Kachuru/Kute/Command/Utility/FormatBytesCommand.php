@@ -12,13 +12,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class FormatBytesCommand extends Command
 {
-    private Math $math;
-
-    public function __construct(Math $math)
-    {
+    public function __construct(
+        private readonly Math $math
+    ) {
         parent::__construct();
-
-        $this->math = $math;
     }
 
     public function configure(): void

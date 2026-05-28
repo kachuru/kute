@@ -8,10 +8,10 @@ use Kachuru\Kute\Tools\Template;
 
 class OhmyzshKeychainTemplate implements Template
 {
-    private const NAME = 'Oh-My-Zsh keychain configuration';
-    private const TEMPLATE_FILE = 'ohmyzsh/keychain.zsh.tmpl';
-    private const TARGET_LOCATION = '~/.oh-my-zsh/custom/keychain.zsh';
-    private const TEMPLATE_DATA = [
+    private const string NAME = 'Oh-My-Zsh keychain configuration';
+    private const string TEMPLATE_FILE = 'ohmyzsh/keychain.zsh.tmpl';
+    private const string TARGET_LOCATION = '~/.oh-my-zsh/custom/keychain.zsh';
+    private const array TEMPLATE_DATA = [
         'identityType' => 'Specify identity type (id_rsa/id_ecdsa/...)'
     ];
 
