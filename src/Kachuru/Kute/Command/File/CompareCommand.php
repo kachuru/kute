@@ -6,6 +6,7 @@ namespace Kachuru\Kute\Command\File;
 
 use App\Command\Command;
 use Kachuru\File\Directory;
+use Kachuru\File\Path;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,8 +25,8 @@ class CompareCommand extends Command
         $this->addArgument('canonicalDirectory', InputArgument::REQUIRED, 'Directory to treat as the canonical reference');
         $this->addArgument('comparisonDirectory', InputArgument::OPTIONAL, 'Directory to scan for duplication');
         $this->addOption('delete', 'd', InputOption::VALUE_NONE, 'Delete duplicates');
-//        $this->addOption('ignore', 'i', InputOption::VALUE_IS_ARRAY, 'Matching paths will be ignored', []);
-//        $this->addOption('purge', 'p', InputOption::VALUE_IS_ARRAY, 'Delete matches, regardless of duplicates', []);
+        $this->addOption('prune', 'p', InputOption::VALUE_NONE, 'Prune empty directories');
+        $this->addOption('ignore', 'i', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'Matching paths will be ignored', []);
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -63,36 +64,53 @@ class CompareCommand extends Command
             if ($entry instanceof Directory) {
                 $this->buildIndex($entry);
             } else {
-                if ($this->output->isVerbose()) {
-                    $this->output->writeln(sprintf('Hashing [%s] ... %s', $entry->getPath(), $entry->getHash()));
-                }
+//                if ($this->output->isVerbose()) {
+//                    $this->output->writeln(sprintf('Hashing [%s] ... %s', $entry->getPath(), $entry->getHash()));
+//                }
 
-                $this->index[$entry->getHash()][] = $entry;
+                $this->addToIndex($entry);
             }
         }
     }
 
     private function compareDirectory(Directory $directory): void
     {
+        $delete = $this->input->getOption('delete');
+        $prune = $this->input->getOption('prune');
+
         $contents = $directory->getContents();
 
         foreach ($contents as $entry) {
             if ($entry instanceof Directory) {
                 $this->compareDirectory($entry);
-                if ($entry->isEmpty()) {
-                    $this->output->writeln(sprintf('Directory [%s] is empty', $directory->getPath()));
+                if ($entry->isEmpty() && $delete && $prune) {
+                    $this->output->writeln(sprintf('Pruning empty directory [%s]', $entry->getPath()));
+                    $directory->delete($entry);
                 }
             } else {
                 if (array_key_exists($entry->getHash(), $this->index)) {
-                    $delete = $this->input->getOption('delete');
                     if ($delete) {
                         $this->output->writeln(sprintf('Deleting: %s matches %s', $entry->getPath(), implode(', ', $this->index[$entry->getHash()])));
-                        $directory->unlink($entry);
+                        $directory->delete($entry);
                     } else {
                         $this->output->writeln(sprintf('Duplicate found: %s matches %s', $entry->getPath(), implode(', ', $this->index[$entry->getHash()])));
                     }
                 }
             }
         }
+    }
+
+    private function addToIndex(Path $entry): void
+    {
+        $ignore = $this->input->getOption('ignore');
+        if (!empty($ignore)) {
+            foreach ($ignore as $pattern) {
+                if (str_contains($entry->getPath(), $pattern)) {
+                    return;
+                }
+            }
+        }
+
+        $this->index[$entry->getHash()][] = $entry;
     }
 }

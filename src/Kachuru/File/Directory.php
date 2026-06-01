@@ -23,6 +23,11 @@ class Directory implements Path
         return $this->path;
     }
 
+    public function getHash(): string
+    {
+        return hash_file('sha256', $this->path);
+    }
+
     public function getContents(): array
     {
         if (!isset($this->contents)) {
@@ -41,10 +46,15 @@ class Directory implements Path
         return empty($this->contents);
     }
 
-    public function unlink(Path $entry): bool
+    public function delete(Path $entry): bool
     {
-        unset($this->contents[$this->getHash($entry->getPath())]);
-        return unlink($entry->getPath());
+        $result = $entry instanceof Directory
+            ? rmdir($entry->getPath())
+            : unlink($entry->getPath());
+
+        unset($this->contents[$this->hashFilename($entry->getPath())]);
+
+        return $result;
     }
 
     private function parse(): void
@@ -59,7 +69,7 @@ class Directory implements Path
 
             $fullEntry = realpath($this->path . DIRECTORY_SEPARATOR . $entry);
 
-            $this->contents[$this->getHash($fullEntry)] = match (true) {
+            $this->contents[$this->hashFilename($fullEntry)] = match (true) {
                 is_link($fullEntry) => new Link($fullEntry),
                 is_file($fullEntry) => new File($fullEntry),
                 is_dir($fullEntry) => new Directory($fullEntry),
@@ -68,7 +78,7 @@ class Directory implements Path
         }
     }
 
-    private function getHash(string $entry): string
+    private function hashFilename(string $entry): string
     {
         return hash('sha256', $entry);
     }
