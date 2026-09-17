@@ -50,5 +50,9 @@
     "5.0.0": {
         "version": "5.0.0",
         "SHA256": "496667db91d7d54809ff27dff4ae6c8bb066d87a62d1b07488ca469e903ebe51"
+    },
+    "5.1.0": {
+        "version": "5.1.0",
+        "SHA256": "85ac0a05bb7aa93d8eb0dbb334056d5cad14388f3af8e0ed080e2402caf8803c"
     }
 }
