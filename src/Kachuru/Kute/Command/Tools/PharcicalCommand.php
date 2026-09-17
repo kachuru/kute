@@ -56,6 +56,7 @@ class PharcicalCommand extends Command
             $phar->startBuffering();
             $phar->setStub($this->generateStub($phar));
             $phar->buildFromDirectory('.', '#/(config|home|public|src|translations|vendor)/#');
+            $phar->addFile('versions.json');
             $phar->stopBuffering();
             $phar->compressFiles(\Phar::GZ);
             chmod(self::PHAR_FILENAME, 0770);
